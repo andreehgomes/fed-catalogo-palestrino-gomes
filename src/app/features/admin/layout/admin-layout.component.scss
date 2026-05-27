@@ -16,7 +16,7 @@
 
   &__logo {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.5rem;
     padding: 1.25rem 1.25rem 1rem;
     text-decoration: none;
@@ -24,12 +24,11 @@
     margin-bottom: 0.5rem;
   }
 
-  &__logo-text {
-    font-family: var(--font-heading, 'Oswald', sans-serif);
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--color-verde, #00a651);
-    line-height: 1;
+  &__logo-img {
+    height: 60px;
+    width: auto;
+    display: block;
+    flex-shrink: 0;
   }
 
   &__logo-sub {

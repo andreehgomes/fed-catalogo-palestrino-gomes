@@ -24,7 +24,24 @@
       "Bash(node -e \"const p=require\\('./package.json'\\); const deps={...p.dependencies,...p.devDependencies}; Object.keys\\(deps\\).filter\\(k=>k.includes\\('fire'\\)||k.includes\\('firebase'\\)\\).forEach\\(k=>console.log\\(k,deps[k]\\)\\)\")",
       "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\Oem\\\\Documents\\\\Projetos\\\\2 - Particular\\\\fed-catalogo-palestrino-gomes\\\\docs\\\\plano-executado\")",
       "Bash(not exist *)",
-      "Bash(npx firebase *)"
+      "Bash(npx firebase *)",
+      "Bash(Get-ChildItem -Path \"src\" -Recurse -Directory)",
+      "Bash(Select-Object -First 20)",
+      "PowerShell(Move-Item \"c:\\\\Users\\\\Oem\\\\Documents\\\\Projetos\\\\2 - Particular\\\\fed-catalogo-palestrino-gomes\\\\src\\\\assets\" \"c:\\\\Users\\\\Oem\\\\Documents\\\\Projetos\\\\2 - Particular\\\\fed-catalogo-palestrino-gomes\\\\public\\\\assets\")",
+      "Bash(npm start *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4200)",
+      "Bash('footer')",
+      "Bash(node -e ' *)",
+      "Bash(npx --yes playwright@1.60.0 screenshot --browser=chromium \"http://localhost:4200\" \"C:/Users/Oem/AppData/Local/Temp/page-full.png\")",
+      "Bash(npx --yes playwright@1.60.0 screenshot --browser=chromium --full-page \"http://localhost:4200\" \"C:/Users/Oem/AppData/Local/Temp/page-fullpage.png\")",
+      "Read(//c/tmp/**)",
+      "Bash(node footer-shot.mjs)",
+      "Bash(ls /tmp/footer-desktop.png && cp /tmp/footer-desktop.png \"C:/Users/Oem/AppData/Local/Temp/footer-desktop.png\")",
+      "Bash(cp /tmp/footer-result.png \"C:/Users/Oem/AppData/Local/Temp/footer-result.png\" && echo \"copied\")"
+    ],
+    "additionalDirectories": [
+      "c:\\tmp",
+      "\\tmp"
     ]
   }
 }

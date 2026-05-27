@@ -9,8 +9,8 @@
 .navbar__inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 var(--space-margin-mobile);
-  height: 60px;
+  padding: 0.5rem var(--space-margin-mobile);
+  min-height: 88px;
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -21,12 +21,16 @@
 }
 
 .navbar__logo {
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: var(--color-verde);
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  line-height: 1;
+  flex-shrink: 0;
+}
+
+.navbar__logo-img {
+  height: 72px;
+  width: auto;
+  display: block;
 }
 
 .navbar__nav {
@@ -101,7 +105,7 @@
   .navbar__nav {
     display: none;
     position: absolute;
-    top: 60px;
+    top: 88px;
     left: 0;
     right: 0;
     background: var(--color-fundo);

@@ -1,6 +1,8 @@
 <header class="navbar">
   <div class="navbar__inner">
-    <a routerLink="/" class="navbar__logo" aria-label="Palestrino Gomes — página inicial">P</a>
+    <a routerLink="/" class="navbar__logo" aria-label="Palestrino Gomes — página inicial">
+      <img src="assets/imagens/logo2.png" alt="Palestrino Gomes" class="navbar__logo-img">
+    </a>
 
     <nav class="navbar__nav" [class.navbar__nav--aberto]="menuAberto()" aria-label="Menu principal">
       @for (cat of categorias(); track cat.id) {
