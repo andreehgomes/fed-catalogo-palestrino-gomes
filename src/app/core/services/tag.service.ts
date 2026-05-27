@@ -22,9 +22,10 @@ export class TagService {
     return collectionData(q, { idField: 'id' }) as Observable<Tag[]>;
   }
 
-  async salvar(tag: Partial<Tag> & { id?: string }): Promise<void> {
+  async salvar(tag: Partial<Tag> & { id?: string }): Promise<string> {
     const id = tag.id ?? doc(this.col()).id;
     await setDoc(doc(this.firestore, 'tags', id), { ...tag, id }, { merge: true });
+    return id;
   }
 
   async excluir(id: string): Promise<void> {

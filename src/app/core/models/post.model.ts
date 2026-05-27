@@ -9,6 +9,7 @@ export interface Post {
   categoriaId: string;
   categoriaSlug: string;
   tags: string[];
+  destaque?: boolean;
   coverUrl: string;
   coverCaption?: string;
   coverCredit?: string;

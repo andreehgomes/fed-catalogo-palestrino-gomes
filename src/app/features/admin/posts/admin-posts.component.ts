@@ -37,6 +37,7 @@ export class AdminPostsComponent {
 
   readonly colunas: AdminColuna[] = [
     { chave: 'titulo', label: 'Título' },
+    { chave: 'destaque', label: '', width: '110px', tipo: 'flag-destaque' },
     { chave: 'status', label: 'Status', width: '130px', tipo: 'badge-status' },
     { chave: 'publicadoEm', label: 'Publicado em', width: '150px', tipo: 'data' },
   ];

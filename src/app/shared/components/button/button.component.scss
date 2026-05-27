@@ -18,26 +18,29 @@
 }
 
 .btn--primary {
-  background: var(--color-verde);
-  color: #fff;
-  &:hover:not(:disabled) { background: var(--color-verde-escuro); }
+  background: var(--color-neon-accent);
+  color: var(--color-on-primary);
+  &:hover:not(:disabled) { background: var(--color-primary-container); color: var(--color-on-primary-container); }
 }
 
 .btn--secondary {
   background: transparent;
-  color: var(--color-verde);
-  border-color: var(--color-verde);
-  &:hover:not(:disabled) { background: var(--color-verde); color: #fff; }
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  &:hover:not(:disabled) {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
 }
 
 .btn--ghost {
   background: transparent;
-  color: var(--color-texto);
-  &:hover:not(:disabled) { background: var(--color-fundo-alt); }
+  color: var(--color-text-primary);
+  &:hover:not(:disabled) { background: var(--color-surface-container-high); }
 }
 
 .btn--youtube-cta {
-  background: #ff0000;
+  background: var(--color-youtube-red);
   color: #fff;
   &:hover:not(:disabled) { background: #cc0000; }
 }

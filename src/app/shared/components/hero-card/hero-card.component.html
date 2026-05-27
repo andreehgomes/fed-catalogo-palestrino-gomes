@@ -8,11 +8,9 @@
       <p class="hero__categoria">{{ post().categoriaSlug }}</p>
       <h1 class="hero__titulo">{{ post().titulo }}</h1>
       <p class="hero__excerpt">{{ post().excerpt }}</p>
-      <app-button variante="primary">
-        <a [routerLink]="['/', post().categoriaSlug, post().slug]" class="hero__cta-link">
-          Ler análise
-        </a>
-      </app-button>
+      <a [routerLink]="['/', post().categoriaSlug, post().slug]" class="hero__cta">
+        Ler análise
+      </a>
     </div>
   </div>
 </article>

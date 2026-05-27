@@ -30,6 +30,11 @@
                     {{ asString(valor(linha, col.chave)) }}
                   </span>
                 }
+                @case ('flag-destaque') {
+                  @if (valor(linha, col.chave)) {
+                    <span class="at__badge at__badge--destaque">Destaque</span>
+                  }
+                }
                 @default {
                   {{ asString(valor(linha, col.chave)) }}
                 }

@@ -12,7 +12,7 @@ export interface AdminColuna {
   chave: string;
   label: string;
   width?: string;
-  tipo?: 'texto' | 'data' | 'badge-status' | 'badge-pilar' | 'moeda';
+  tipo?: 'texto' | 'data' | 'badge-status' | 'badge-pilar' | 'moeda' | 'flag-destaque';
 }
 
 @Component({

@@ -38,9 +38,10 @@ export class CategoriaService {
     >;
   }
 
-  async salvar(cat: Partial<Categoria> & { id?: string }): Promise<void> {
+  async salvar(cat: Partial<Categoria> & { id?: string }): Promise<string> {
     const id = cat.id ?? doc(this.col()).id;
     await setDoc(doc(this.firestore, 'categorias', id), { ...cat, id }, { merge: true });
+    return id;
   }
 
   async excluir(id: string): Promise<void> {

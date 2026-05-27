@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     { initialValue: [] as Post[] },
   );
 
-  destaque = computed(() => this.todos()[0] ?? null);
+  destaque = computed(() => this.todos().find(p => p.destaque) ?? this.todos()[0] ?? null);
   recentes = computed(() => this.todos().slice(0, 8));
 
   ngOnInit(): void {
