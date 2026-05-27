@@ -1,6 +1,6 @@
 # Guia de Geração de Post — Palestrino Gomes
 
-> Use este documento como prompt base para o Claude gerar os dados completos de um post do site, a partir de um roteiro ou matéria criada com base no `briefing_palestrino_gomes_v8.md`.
+> Use este documento como prompt base para o Claude gerar os dados completos de um post do site, a partir de um roteiro ou matéria criada com base no `briefing_palestrino_gomes_v9.md`.
 
 ---
 
@@ -78,7 +78,7 @@ O `corpo` do post é escrito em HTML limpo. Siga as regras abaixo:
 
 ### 2.4. Tom e estilo do texto
 
-O post segue o mesmo DNA do canal: **palmeirense enérgico, estressado e bem informado**. Não é neutro, mas tem rigor — opinião sempre com argumento, dado ou contexto. Regras fixas do `briefing_palestrino_gomes_v8.md`, item 2.1, valem integralmente:
+O post segue o mesmo DNA do canal: **palmeirense enérgico, estressado e bem informado**. Não é neutro, mas tem rigor — opinião sempre com argumento, dado ou contexto. Regras fixas do `briefing_palestrino_gomes_v9.md`, item 2.1, valem integralmente:
 
 - Proibido sentimentalismo piegas ("lágrimas nos olhos", "emoção que não cabe no peito")
 - O post não se autoelogia — não escreva "leia nossa análise completa" ou "aqui a verdade sobre"
@@ -148,6 +148,8 @@ Não preencher — dependem de dados que o André tem no sistema:
 | `categoriaId` | André converte o `categoriaSlug` para o ID do Firestore |
 | `afiliadosIds` | André seleciona os produtos cadastrados no sistema |
 | `coverUrl` | André faz upload da thumbnail do vídeo ou de imagem específica |
+| `coverCaption` | André preenche após escolher a imagem de capa. Ex.: `"Endrick comemora gol na Arena Barueri"`. Opcional — omitir se a imagem for autoexplicativa. |
+| `coverCredit` | André preenche com a fonte da imagem. Ex.: `"Foto: Cesar Greco / SE Palmeiras"`. **Obrigatório quando a imagem não for de autoria própria.** |
 | `status` | André define se publica diretamente ou salva como rascunho |
 
 ---
@@ -198,6 +200,8 @@ NOTAS DE PRODUÇÃO
 - [Qualquer observação relevante para o André na hora de publicar]
 - [Ex.: "youtubeId ainda não disponível — inserir após publicar o vídeo longo"]
 - [Ex.: "tag 'Copa do Mundo de Clubes' ainda não cadastrada no sistema [nova]"]
+- [Ex.: "coverCaption sugerida: 'Abel Ferreira orienta jogadores no treino desta semana'"]
+- [Ex.: "coverCredit: preencher com a fonte da imagem após o upload — obrigatório se não for foto própria"]
 ```
 
 ---
@@ -224,7 +228,7 @@ Antes de finalizar o bloco de dados, o Claude deve confirmar:
 
 Ou:
 
-> "Crie um roteiro de vídeo longo sobre [tema] com base no `briefing_palestrino_gomes_v8.md` e, logo após, gere os dados do post correspondente seguindo o `gerador_post_palestrino.md`."
+> "Crie um roteiro de vídeo longo sobre [tema] com base no `briefing_palestrino_gomes_v9.md` e, logo após, gere os dados do post correspondente seguindo o `gerador_post_palestrino.md`."
 
 ---
 

@@ -49,6 +49,8 @@ export class AdminEditorComponent implements OnInit {
   excerpt = signal('');
   corpo = signal('');
   coverUrl = signal('');
+  coverCaption = signal('');
+  coverCredit = signal('');
   youtubeId = signal('');
   categoriaId = signal('');
   tagsIds = signal<string[]>([]);
@@ -93,6 +95,8 @@ export class AdminEditorComponent implements OnInit {
     this.excerpt.set(post.excerpt);
     this.corpo.set(post.corpo);
     this.coverUrl.set(post.coverUrl);
+    this.coverCaption.set(post.coverCaption ?? '');
+    this.coverCredit.set(post.coverCredit ?? '');
     this.youtubeId.set(post.youtubeId ?? '');
     this.categoriaId.set(post.categoriaId);
     this.tagsIds.set(post.tags ?? []);
@@ -118,6 +122,8 @@ export class AdminEditorComponent implements OnInit {
       excerpt: this.excerpt(),
       corpo: this.corpo(),
       coverUrl: this.coverUrl(),
+      coverCaption: this.coverCaption() || undefined,
+      coverCredit: this.coverCredit() || undefined,
       youtubeId: this.youtubeId() || undefined,
       categoriaId: this.categoriaId(),
       categoriaSlug: this.categoriaSlugSelecionada(),

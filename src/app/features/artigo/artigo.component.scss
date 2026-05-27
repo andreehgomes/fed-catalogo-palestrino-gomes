@@ -36,13 +36,34 @@
   color: var(--color-text-muted);
 }
 
+.artigo__cover-figure {
+  margin: 0 0 var(--space-stack-md);
+}
+
 .artigo__cover {
   width: 100%;
   height: auto;
   border-radius: var(--radius-md);
   aspect-ratio: 16/9;
   object-fit: cover;
-  margin-bottom: var(--space-stack-md);
+  display: block;
+}
+
+.artigo__cover-caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.artigo__cover-credit {
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .artigo__youtube { margin-bottom: var(--space-stack-md); }

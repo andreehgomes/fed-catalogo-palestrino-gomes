@@ -18,14 +18,22 @@
     </header>
 
     @if (post()!.coverUrl) {
-      <img
-        [src]="post()!.coverUrl"
-        [alt]="post()!.titulo"
-        class="artigo__cover"
-        width="1200"
-        height="675"
-        priority
-      />
+      <figure class="artigo__cover-figure">
+        <img
+          [src]="post()!.coverUrl"
+          [alt]="post()!.titulo"
+          class="artigo__cover"
+          width="1200"
+          height="675"
+          priority
+        />
+        @if (post()!.coverCaption || post()!.coverCredit) {
+          <figcaption class="artigo__cover-caption">
+            @if (post()!.coverCaption) {<span>{{ post()!.coverCaption }}</span>}
+            @if (post()!.coverCredit) {<span class="artigo__cover-credit">{{ post()!.coverCredit }}</span>}
+          </figcaption>
+        }
+      </figure>
     }
 
     @if (post()!.youtubeId) {

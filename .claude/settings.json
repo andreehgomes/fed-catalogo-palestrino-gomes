@@ -37,7 +37,9 @@
       "Read(//c/tmp/**)",
       "Bash(node footer-shot.mjs)",
       "Bash(ls /tmp/footer-desktop.png && cp /tmp/footer-desktop.png \"C:/Users/Oem/AppData/Local/Temp/footer-desktop.png\")",
-      "Bash(cp /tmp/footer-result.png \"C:/Users/Oem/AppData/Local/Temp/footer-result.png\" && echo \"copied\")"
+      "Bash(cp /tmp/footer-result.png \"C:/Users/Oem/AppData/Local/Temp/footer-result.png\" && echo \"copied\")",
+      "Bash(Get-ChildItem -Recurse -Name \"src\" -Type Directory)",
+      "Bash(Select-Object -First 1)"
     ],
     "additionalDirectories": [
       "c:\\tmp",

@@ -10,6 +10,8 @@ export interface Post {
   categoriaSlug: string;
   tags: string[];
   coverUrl: string;
+  coverCaption?: string;
+  coverCredit?: string;
   youtubeId?: string;
   afiliados: string[];
   status: PostStatus;

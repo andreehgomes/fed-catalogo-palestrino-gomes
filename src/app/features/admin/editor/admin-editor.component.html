@@ -157,6 +157,27 @@
           <img [src]="coverUrl()" alt="Prévia da capa" class="editor__cover-preview" loading="lazy" />
           <button type="button" class="editor__cover-remover" (click)="coverUrl.set('')">Remover capa</button>
         }
+
+        <div class="editor__campo">
+          <label class="editor__label editor__label--sm">Legenda</label>
+          <input
+            type="text"
+            class="editor__input"
+            [ngModel]="coverCaption()"
+            (ngModelChange)="coverCaption.set($event)"
+            placeholder="Ex: Endrick comemora gol na Arena Barueri"
+          />
+        </div>
+        <div class="editor__campo">
+          <label class="editor__label editor__label--sm">Crédito</label>
+          <input
+            type="text"
+            class="editor__input"
+            [ngModel]="coverCredit()"
+            (ngModelChange)="coverCredit.set($event)"
+            placeholder="Ex: Foto: Cesar Greco / SE Palmeiras"
+          />
+        </div>
       </div>
 
       <div class="editor__painel">
