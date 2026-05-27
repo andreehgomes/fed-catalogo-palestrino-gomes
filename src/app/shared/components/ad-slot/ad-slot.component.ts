@@ -28,7 +28,7 @@ declare const adsbygoogle: unknown[];
 })
 export class AdSlotComponent implements AfterViewInit {
   slotId = input.required<string>();
-  publisherId = input('');
+  publisherId = input('ca-pub-8924296256560362');
   formato = input<AdFormato>('rectangle');
 
   private readonly platformId = inject(PLATFORM_ID);
