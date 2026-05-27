@@ -1,0 +1,21 @@
+<div class="affiliate-card">
+  <img
+    [src]="produto().imagemUrl"
+    [alt]="produto().titulo"
+    class="affiliate-card__img"
+    loading="lazy"
+    width="120"
+    height="120"
+  />
+  <div class="affiliate-card__body">
+    <p class="affiliate-card__titulo">{{ produto().titulo }}</p>
+    <p class="affiliate-card__preco">{{ produto().preco | currency: 'BRL' }}</p>
+    <a
+      [href]="produto().linkAfiliado"
+      rel="sponsored nofollow"
+      target="_blank"
+      class="affiliate-card__cta"
+    >Ver no Mercado Livre</a>
+    <p class="affiliate-card__disclosure">{{ produto().disclosure }}</p>
+  </div>
+</div>

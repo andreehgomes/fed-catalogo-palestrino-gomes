@@ -1,0 +1,17 @@
+:host { display: block; }
+
+.ad-placeholder {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--color-borda);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-placeholder__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-texto-suave);
+}

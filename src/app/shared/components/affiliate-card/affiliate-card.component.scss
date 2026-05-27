@@ -1,0 +1,38 @@
+.affiliate-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-borda);
+  border-radius: var(--radius-md);
+  background: var(--color-fundo-alt);
+}
+
+.affiliate-card__img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.affiliate-card__body { display: flex; flex-direction: column; gap: 0.5rem; }
+.affiliate-card__titulo { font-weight: 600; font-size: 0.9375rem; margin: 0; }
+.affiliate-card__preco { font-size: 1.25rem; font-weight: 700; color: var(--color-verde); margin: 0; }
+
+.affiliate-card__cta {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #ffe600;
+  color: #333;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.875rem;
+  align-self: flex-start;
+  &:hover { background: #e6cf00; }
+}
+
+.affiliate-card__disclosure {
+  font-size: 0.6875rem;
+  color: var(--color-texto-suave);
+  margin: 0;
+}

@@ -1,0 +1,46 @@
+<div class="admin-crud">
+  <h1 class="admin-crud__titulo">Categorias</h1>
+
+  <!-- Formulário inline -->
+  <div class="admin-crud__form">
+    <h3 class="admin-crud__form-titulo">{{ editando() ? 'Editar Categoria' : 'Nova Categoria' }}</h3>
+    <div class="admin-crud__form-grid">
+      <div class="admin-crud__campo">
+        <label class="admin-crud__label">Nome</label>
+        <input type="text" class="admin-crud__input" [ngModel]="novoNome()" (ngModelChange)="novoNome.set($event)" placeholder="Nome da categoria" />
+      </div>
+      <div class="admin-crud__campo">
+        <label class="admin-crud__label">Slug</label>
+        <input type="text" class="admin-crud__input" [ngModel]="novoSlug()" (ngModelChange)="novoSlug.set($event)" placeholder="gerado-automaticamente" />
+      </div>
+      <div class="admin-crud__campo">
+        <label class="admin-crud__label">Pilar</label>
+        <select class="admin-crud__select" [ngModel]="novoPilar()" (ngModelChange)="novoPilar.set($event)">
+          @for (p of pilares; track p) {
+            <option [value]="p">{{ p }}</option>
+          }
+        </select>
+      </div>
+      <div class="admin-crud__campo admin-crud__campo--full">
+        <label class="admin-crud__label">Descrição</label>
+        <input type="text" class="admin-crud__input" [ngModel]="novaDescricao()" (ngModelChange)="novaDescricao.set($event)" placeholder="Descrição da categoria" />
+      </div>
+    </div>
+    <div class="admin-crud__form-acoes">
+      <button class="admin-crud__btn admin-crud__btn--salvar" (click)="salvar()" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando...' : 'Salvar' }}
+      </button>
+      @if (editando()) {
+        <button class="admin-crud__btn admin-crud__btn--cancelar" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+  </div>
+
+  <app-admin-tabela
+    [colunas]="colunas"
+    [linhas]="linhas()"
+    msgVazia="Nenhuma categoria cadastrada."
+    (editar)="iniciarEdicao($event)"
+    (excluir)="excluir($event)"
+  />
+</div>

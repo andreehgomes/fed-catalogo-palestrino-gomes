@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Posts: leitura pública apenas para publicados; escrita somente pelo admin
+    match /posts/{id} {
+      allow read: if resource.data.status == 'publicado';
+      allow write: if request.auth != null
+        && request.auth.token.email == 'andrefelipefeliciogomes@gmail.com';
+    }
+
+    // Categorias, tags, produtos_afiliado, config: leitura pública; escrita só admin
+    match /{collection}/{id} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.token.email == 'andrefelipefeliciogomes@gmail.com';
+    }
+  }
+}

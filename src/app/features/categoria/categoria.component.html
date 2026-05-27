@@ -1,0 +1,24 @@
+@if (cat()) {
+  <div class="cat">
+    <app-breadcrumb [itens]="breadcrumb()" />
+
+    <header class="cat__header" [attr.data-pilar]="cat()!.pilar">
+      <h1 class="cat__titulo">{{ cat()!.nome }}</h1>
+      <p class="cat__descricao">{{ cat()!.descricao }}</p>
+    </header>
+
+    <app-ad-slot [slotId]="'cat-' + cat()!.slug" formato="leaderboard" class="cat__ad" />
+
+    <div class="cat__grid">
+      @for (post of paginados(); track post.id) {
+        <app-article-card [post]="post" [categoriaPilar]="cat()!.pilar" />
+      }
+    </div>
+
+    @if (totalPaginas() > 1) {
+      <app-pagination [paginaAtual]="paginaAtual()" [totalPaginas]="totalPaginas()" />
+    }
+  </div>
+} @else {
+  <p class="cat__vazio">Categoria não encontrada.</p>
+}

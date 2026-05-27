@@ -1,0 +1,43 @@
+:host { display: contents; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.btn--primary {
+  background: var(--color-verde);
+  color: #fff;
+  &:hover:not(:disabled) { background: var(--color-verde-escuro); }
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-verde);
+  border-color: var(--color-verde);
+  &:hover:not(:disabled) { background: var(--color-verde); color: #fff; }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-texto);
+  &:hover:not(:disabled) { background: var(--color-fundo-alt); }
+}
+
+.btn--youtube-cta {
+  background: #ff0000;
+  color: #fff;
+  &:hover:not(:disabled) { background: #cc0000; }
+}

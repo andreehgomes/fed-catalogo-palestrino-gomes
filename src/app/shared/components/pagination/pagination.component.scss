@@ -1,0 +1,31 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 2rem 0;
+}
+
+.pagination__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-verde);
+  border: 1px solid var(--color-borda);
+  background: var(--color-fundo);
+  transition: background 0.15s;
+
+  &:hover { background: var(--color-fundo-alt); }
+
+  &--ativo {
+    background: var(--color-verde);
+    color: #fff;
+    border-color: var(--color-verde);
+    pointer-events: none;
+  }
+}

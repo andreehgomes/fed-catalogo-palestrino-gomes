@@ -1,0 +1,11 @@
+<div class="contato">
+  <h1 class="contato__titulo">Contato</h1>
+  @if (config()?.textoContato) {
+    <div class="contato__corpo" [innerHTML]="config()!.textoContato"></div>
+  } @else {
+    <p class="contato__corpo">
+      Para entrar em contato, envie uma mensagem pelo canal do YouTube
+      <strong>Palestrino Gomes</strong> ou pelas redes sociais.
+    </p>
+  }
+</div>

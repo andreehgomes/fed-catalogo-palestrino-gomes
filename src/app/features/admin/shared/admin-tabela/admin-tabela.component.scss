@@ -1,0 +1,101 @@
+.at {
+  &__wrap {
+    overflow-x: auto;
+  }
+
+  &__tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    table-layout: auto;
+
+    th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+      color: var(--color-text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+      color: var(--color-on-surface);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: var(--color-surface-container);
+    }
+  }
+
+  &__th-acoes {
+    width: 120px;
+  }
+
+  &__acoes {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  &__acao {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: none;
+    text-decoration: none;
+    font-family: inherit;
+
+    &--editar {
+      color: var(--color-primary);
+      &:hover { text-decoration: underline; }
+    }
+
+    &--excluir {
+      color: var(--color-error, #e53e3e);
+      &:hover { text-decoration: underline; }
+    }
+  }
+
+  &__badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+
+    &--status {
+      &[data-status='publicado'] {
+        background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+        color: var(--color-primary);
+      }
+      &[data-status='rascunho'] {
+        background: color-mix(in srgb, var(--color-text-muted) 20%, transparent);
+        color: var(--color-text-muted);
+      }
+      &[data-status='agendado'] {
+        background: color-mix(in srgb, #f59e0b 20%, transparent);
+        color: #f59e0b;
+      }
+    }
+
+    &--pilar {
+      &[data-pilar='analises'] { background: color-mix(in srgb, #00a651 30%, transparent); color: #80da92; }
+      &[data-pilar='taticas']  { background: color-mix(in srgb, #00a651 30%, transparent); color: #80da92; }
+      &[data-pilar='opiniao']  { background: color-mix(in srgb, #f59e0b 20%, transparent); color: #f59e0b; }
+      &[data-pilar='historia'] { background: color-mix(in srgb, #60a5fa 15%, transparent); color: #60a5fa; }
+    }
+  }
+
+  &__vazio {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 2rem !important;
+  }
+}

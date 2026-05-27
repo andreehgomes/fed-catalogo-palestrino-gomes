@@ -1,0 +1,26 @@
+<div class="admin-posts">
+  <div class="admin-posts__header">
+    <h1 class="admin-posts__titulo">Posts</h1>
+    <a routerLink="/admin/posts/novo" class="admin-posts__btn-novo">+ Novo Post</a>
+  </div>
+
+  <div class="admin-posts__filtros">
+    @for (f of filtros; track f.valor) {
+      <button
+        class="admin-posts__filtro"
+        [class.admin-posts__filtro--ativo]="filtroAtivo() === f.valor"
+        (click)="setFiltro(f.valor)"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+  <app-admin-tabela
+    [colunas]="colunas"
+    [linhas]="linhas()"
+    [editLink]="editLink"
+    msgVazia="Nenhum post encontrado."
+    (excluir)="excluir($event)"
+  />
+</div>

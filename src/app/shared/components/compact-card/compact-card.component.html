@@ -1,0 +1,20 @@
+<article class="compact">
+  <a [routerLink]="['/', post().categoriaSlug, post().slug]" class="compact__thumb-link" aria-hidden="true" tabindex="-1">
+    <img
+      [src]="post().coverUrl"
+      [alt]="post().titulo"
+      class="compact__thumb"
+      loading="lazy"
+      width="96"
+      height="72"
+    />
+  </a>
+  <div class="compact__body">
+    <h3 class="compact__titulo">
+      <a [routerLink]="['/', post().categoriaSlug, post().slug]">{{ post().titulo }}</a>
+    </h3>
+    <time class="compact__data" [dateTime]="post().publicadoEm?.toString()">
+      {{ post().publicadoEm | date: 'dd/MM/yyyy' }}
+    </time>
+  </div>
+</article>

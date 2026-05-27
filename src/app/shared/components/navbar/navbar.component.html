@@ -1,0 +1,42 @@
+<header class="navbar">
+  <div class="navbar__inner">
+    <a routerLink="/" class="navbar__logo" aria-label="Palestrino Gomes — página inicial">P</a>
+
+    <nav class="navbar__nav" [class.navbar__nav--aberto]="menuAberto()" aria-label="Menu principal">
+      @for (cat of categorias(); track cat.id) {
+        <a [routerLink]="['/', cat.slug]" routerLinkActive="navbar__link--ativo" class="navbar__link">
+          {{ cat.nome }}
+        </a>
+      }
+    </nav>
+
+    <div class="navbar__acoes">
+      <a routerLink="/busca" class="navbar__busca" aria-label="Buscar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+
+      @if (auth.autenticado()) {
+        <a routerLink="/admin/posts" class="navbar__admin-link" aria-label="Painel admin">Admin</a>
+        <button class="navbar__sair" (click)="sair()" aria-label="Sair">Sair</button>
+      } @else {
+        <a routerLink="/admin/login" class="navbar__admin-icon" aria-label="Entrar no painel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </a>
+      }
+
+      <button
+        class="navbar__hamburger"
+        [attr.aria-expanded]="menuAberto()"
+        aria-controls="nav-menu"
+        aria-label="Abrir menu"
+        (click)="toggleMenu()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,31 @@
+<article class="card">
+  <a [routerLink]="['/', post().categoriaSlug, post().slug]" class="card__cover-link" tabindex="-1" aria-hidden="true">
+    <div class="card__cover-wrap">
+      <img
+        [src]="post().coverUrl"
+        [alt]="post().titulo"
+        class="card__cover"
+        loading="lazy"
+        width="640"
+        height="360"
+      />
+    </div>
+  </a>
+  <div class="card__body">
+    <app-category-chip
+      [pilar]="categoriaPilar()"
+      [label]="post().categoriaSlug"
+      [href]="'/' + post().categoriaSlug"
+    />
+    <h2 class="card__titulo">
+      <a [routerLink]="['/', post().categoriaSlug, post().slug]">{{ post().titulo }}</a>
+    </h2>
+    <p class="card__excerpt">{{ post().excerpt }}</p>
+    <footer class="card__meta">
+      <time [dateTime]="post().publicadoEm?.toString()">
+        {{ post().publicadoEm | date: 'dd/MM/yyyy' }}
+      </time>
+      <span>· {{ post().tempoDeLeituraMin }} min de leitura</span>
+    </footer>
+  </div>
+</article>

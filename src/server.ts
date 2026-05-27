@@ -12,17 +12,26 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+const BASE_URL = 'https://palestrinogomes.com.br';
+
+const STATIC_URLS = ['', 'sobre', 'contato', 'privacidade', 'aviso-ia'].map(
+  path => `${BASE_URL}${path ? '/' + path : ''}`,
+);
+
+function buildSitemapXml(urls: string[]): string {
+  const urlEntries = urls
+    .map(loc => `  <url><loc>${loc}</loc></url>`)
+    .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>`;
+}
+
+app.get('/sitemap.xml', (_req, res) => {
+  res.header('Content-Type', 'text/xml; charset=utf-8');
+  res.send(buildSitemapXml(STATIC_URLS));
+});
 
 /**
  * Serve static files from /browser

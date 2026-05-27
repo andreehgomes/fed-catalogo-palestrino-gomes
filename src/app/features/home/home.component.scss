@@ -1,0 +1,29 @@
+.home__hero { margin-bottom: var(--space-stack-lg); }
+.home__ad { display: block; margin-block: var(--space-stack-lg); }
+
+.home__section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2-size);
+  font-weight: var(--text-h2-weight);
+  text-transform: uppercase;
+  color: var(--color-display-cream);
+  margin-bottom: var(--space-stack-md);
+}
+
+.home__section-title--pilar[data-pilar='analises'] { border-left: 4px solid var(--color-pillar-analises); padding-left: 0.75rem; }
+.home__section-title--pilar[data-pilar='taticas'] { border-left: 4px solid var(--color-pillar-taticas); padding-left: 0.75rem; }
+.home__section-title--pilar[data-pilar='opiniao'] { border-left: 4px solid var(--color-pillar-opiniao); padding-left: 0.75rem; }
+.home__section-title--pilar[data-pilar='historia'] { border-left: 4px solid var(--color-pillar-historia); padding-left: 0.75rem; }
+
+.home__grid { margin-bottom: var(--space-stack-lg); }
+.home__pilar { margin-bottom: var(--space-stack-md); }
+
+.home__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .home__cards { grid-template-columns: 1fr; }
+}

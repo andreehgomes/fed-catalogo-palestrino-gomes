@@ -1,0 +1,12 @@
+@if (visivel()) {
+  <div class="banner" role="dialog" aria-live="polite" aria-label="Consentimento de cookies">
+    <p class="banner__texto">
+      Usamos cookies para análise e exibição de anúncios. Consulte nossa
+      <a routerLink="/privacidade">política de privacidade</a>.
+    </p>
+    <div class="banner__acoes">
+      <button class="banner__btn banner__btn--aceitar" (click)="aceitar()">Aceitar todos</button>
+      <button class="banner__btn banner__btn--recusar" (click)="recusar()">Recusar opcionais</button>
+    </div>
+  </div>
+}

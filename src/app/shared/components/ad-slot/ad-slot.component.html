@@ -1,0 +1,14 @@
+@if (isBrowser) {
+  <ins
+    class="adsbygoogle"
+    style="display:block"
+    [attr.data-ad-client]="publisherId()"
+    [attr.data-ad-slot]="slotId()"
+    data-ad-format="auto"
+    data-full-width-responsive="true"
+  ></ins>
+} @else {
+  <div class="ad-placeholder">
+    <span class="ad-placeholder__label">ANÚNCIO</span>
+  </div>
+}

@@ -1,0 +1,23 @@
+<div class="yt-wrap">
+  @if (reproduzindo()) {
+    <iframe
+      class="yt-wrap__iframe"
+      [src]="embedUrl()"
+      title="Vídeo do YouTube"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  } @else {
+    <button class="yt-wrap__thumb" (click)="reproduzir()" aria-label="Reproduzir vídeo">
+      <img
+        [src]="thumbUrl()"
+        [alt]="'Thumbnail do vídeo ' + videoId()"
+        loading="lazy"
+        width="640"
+        height="360"
+      />
+      <span class="yt-wrap__play" aria-hidden="true">&#9654;</span>
+    </button>
+  }
+</div>

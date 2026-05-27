@@ -1,0 +1,33 @@
+<div class="admin-crud">
+  <h1 class="admin-crud__titulo">Tags</h1>
+
+  <div class="admin-crud__form">
+    <h3 class="admin-crud__form-titulo">{{ editando() ? 'Editar Tag' : 'Nova Tag' }}</h3>
+    <div class="admin-crud__form-grid">
+      <div class="admin-crud__campo">
+        <label for="tag-nome" class="admin-crud__label">Nome</label>
+        <input id="tag-nome" type="text" class="admin-crud__input" [ngModel]="novoNome()" (ngModelChange)="novoNome.set($event)" placeholder="Nome da tag" />
+      </div>
+      <div class="admin-crud__campo">
+        <label for="tag-slug" class="admin-crud__label">Slug</label>
+        <input id="tag-slug" type="text" class="admin-crud__input" [ngModel]="novoSlug()" (ngModelChange)="novoSlug.set($event)" placeholder="gerado-automaticamente" />
+      </div>
+    </div>
+    <div class="admin-crud__form-acoes">
+      <button class="admin-crud__btn admin-crud__btn--salvar" (click)="salvar()" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando...' : 'Salvar' }}
+      </button>
+      @if (editando()) {
+        <button class="admin-crud__btn admin-crud__btn--cancelar" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+  </div>
+
+  <app-admin-tabela
+    [colunas]="colunas"
+    [linhas]="linhas()"
+    msgVazia="Nenhuma tag cadastrada."
+    (editar)="iniciarEdicao($event)"
+    (excluir)="excluir($event)"
+  />
+</div>

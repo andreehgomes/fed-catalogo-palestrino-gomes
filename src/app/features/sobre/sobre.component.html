@@ -1,0 +1,12 @@
+<div class="sobre">
+  <h1 class="sobre__titulo">Sobre</h1>
+  @if (config()?.textoSobre) {
+    <div class="sobre__corpo" [innerHTML]="config()!.textoSobre"></div>
+  } @else {
+    <p class="sobre__corpo">
+      O <strong>Palestrino Gomes</strong> é um canal dedicado a análises táticas, história e
+      opiniões sobre o Palmeiras e o futebol brasileiro. Conteúdo produzido com apoio de
+      inteligência artificial e revisado pelo autor.
+    </p>
+  }
+</div>

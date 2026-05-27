@@ -1,0 +1,45 @@
+<div class="admin-crud">
+  <h1 class="admin-crud__titulo">Produtos Afiliados</h1>
+
+  <div class="admin-crud__form">
+    <h3 class="admin-crud__form-titulo">{{ editando() ? 'Editar Produto' : 'Novo Produto' }}</h3>
+    <div class="admin-crud__form-grid">
+      <div class="admin-crud__campo admin-crud__campo--full">
+        <label class="admin-crud__label">Título</label>
+        <input type="text" class="admin-crud__input" [ngModel]="novoTitulo()" (ngModelChange)="novoTitulo.set($event)" placeholder="Nome do produto" />
+      </div>
+      <div class="admin-crud__campo">
+        <label class="admin-crud__label">URL da Imagem</label>
+        <input type="url" class="admin-crud__input" [ngModel]="novaImagemUrl()" (ngModelChange)="novaImagemUrl.set($event)" placeholder="https://..." />
+      </div>
+      <div class="admin-crud__campo">
+        <label class="admin-crud__label">Preço (R$)</label>
+        <input type="number" class="admin-crud__input" [ngModel]="novoPreco()" (ngModelChange)="novoPreco.set(+$event)" min="0" step="0.01" />
+      </div>
+      <div class="admin-crud__campo admin-crud__campo--full">
+        <label class="admin-crud__label">Link de Afiliado <small>(rel="sponsored nofollow" aplicado automaticamente)</small></label>
+        <input type="url" class="admin-crud__input" [ngModel]="novoLink()" (ngModelChange)="novoLink.set($event)" placeholder="https://mercadolivre.com.br/..." />
+      </div>
+      <div class="admin-crud__campo admin-crud__campo--full">
+        <label class="admin-crud__label">Texto de Disclosure</label>
+        <input type="text" class="admin-crud__input" [ngModel]="novoDisclosure()" (ngModelChange)="novoDisclosure.set($event)" />
+      </div>
+    </div>
+    <div class="admin-crud__form-acoes">
+      <button class="admin-crud__btn admin-crud__btn--salvar" (click)="salvar()" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando...' : 'Salvar' }}
+      </button>
+      @if (editando()) {
+        <button class="admin-crud__btn admin-crud__btn--cancelar" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+  </div>
+
+  <app-admin-tabela
+    [colunas]="colunas"
+    [linhas]="linhas()"
+    msgVazia="Nenhum produto cadastrado."
+    (editar)="iniciarEdicao($event)"
+    (excluir)="excluir($event)"
+  />
+</div>

@@ -1,0 +1,131 @@
+// Palestrino Gomes — Design Tokens
+// Gerado pelo Stitch (stitch.withgoogle.com) · asset: 5422a64bd15845198531c4ceaeaeeff5
+// Fonte da verdade: não editar manualmente; alterar via Stitch e reatualizar este arquivo.
+
+:root {
+  // ─── Cores de fundo ────────────────────────────────────────────────────────
+  --color-background-deep:            #0A1410; // fundo principal (near-black verde)
+  --color-background:                 #101510;
+  --color-surface-card:               #13241B; // fundo de cards e superfícies elevadas
+  --color-surface-container-low:      #181D18;
+  --color-surface-container:          #1C211C;
+  --color-surface-container-high:     #262B26;
+  --color-surface-container-highest:  #313630;
+  --color-surface-bright:             #353B35;
+
+  // ─── Cores de marca ────────────────────────────────────────────────────────
+  --color-primary:                    #80DA92; // verde principal gerado
+  --color-primary-container:          #1B7A3D; // verde-bandeira (seed)
+  --color-on-primary:                 #003917;
+  --color-on-primary-container:       #ABFFB8;
+  --color-secondary:                  #40F26D; // neon accent gerado
+  --color-secondary-container:        #00D555;
+  --color-on-secondary:               #003911;
+  --color-on-secondary-container:     #00561D;
+
+  // ─── Cores editoriais customizadas ─────────────────────────────────────────
+  --color-neon-accent:                #3DF06B; // verde neon elétrico (highlights, glow)
+  --color-display-cream:              #ECE6D6; // títulos display grandes
+  --color-pillar-analises:            #1B7A3D;
+  --color-pillar-taticas:             #0D5C3A;
+  --color-pillar-opiniao:             #3DF06B; // text: black
+  --color-pillar-historia:            #ECE6D6; // text: dark
+  --color-youtube-red:                #FF0000;
+
+  // ─── Cores de texto ────────────────────────────────────────────────────────
+  --color-text-primary:               #F2F4F0; // off-white
+  --color-text-muted:                 #A8B0A6; // silver-gray
+  --color-on-surface:                 #DFE4DB;
+  --color-on-surface-variant:         #BECABC;
+
+  // ─── Outline ───────────────────────────────────────────────────────────────
+  --color-outline:                    #899487;
+  --color-outline-variant:            #3F493F;
+
+  // ─── Semânticas ────────────────────────────────────────────────────────────
+  --color-error:                      #FFB4AB;
+  --color-on-error:                   #690005;
+  --color-error-container:            #93000A;
+
+  // ─── Tipografia · Famílias ─────────────────────────────────────────────────
+  --font-headline:   'Oswald', sans-serif;       // títulos, display, uppercase
+  --font-body:       'DM Sans', sans-serif;      // corpo, UI
+  --font-label:      'Barlow Condensed', sans-serif; // chips, labels, tags
+
+  // ─── Tipografia · Escala ───────────────────────────────────────────────────
+  --text-display-size:         72px;
+  --text-display-mobile-size:  48px;
+  --text-display-weight:       700;
+  --text-display-line-height:  1.1;
+  --text-display-tracking:    -0.02em;
+
+  --text-h1-size:    48px;
+  --text-h1-weight:  700;
+  --text-h2-size:    36px;
+  --text-h2-weight:  600;
+  --text-h3-size:    24px;
+  --text-h3-weight:  600;
+
+  --text-body-lg-size:   18px;
+  --text-body-size:      16px;
+  --text-body-weight:    400;
+  --text-body-height:    1.6;
+
+  --text-caption-size:   13px;
+  --text-caption-height: 1.4;
+
+  --text-label-size:     12px;
+  --text-label-weight:   600;
+  --text-label-tracking: 0.08em;
+
+  // ─── Border radius ─────────────────────────────────────────────────────────
+  --radius-sm:   0.25rem; // 4px  — chips, tags
+  --radius:      0.5rem;  // 8px  — padrão
+  --radius-md:   0.75rem;
+  --radius-lg:   1rem;
+  --radius-xl:   1.5rem;
+  --radius-full: 9999px;  // pill, avatar circular
+
+  // ─── Espaçamento ───────────────────────────────────────────────────────────
+  --space-margin-mobile:  1rem;
+  --space-margin-desktop: 2rem;
+  --space-gutter:         1rem;
+  --space-stack-sm:       0.5rem;
+  --space-stack-md:       1.5rem;
+  --space-stack-lg:       3rem;
+
+  // ─── Efeitos ───────────────────────────────────────────────────────────────
+  --glow-neon: 0 0 15px rgba(61, 240, 107, 0.4); // neon glow em botões/estados ativos
+}
+
+// ─── Mixins utilitários ──────────────────────────────────────────────────────
+
+@mixin text-display($mobile: false) {
+  font-family: var(--font-headline);
+  font-weight: var(--text-display-weight);
+  line-height: var(--text-display-line-height);
+  letter-spacing: var(--text-display-tracking);
+  text-transform: uppercase;
+  color: var(--color-display-cream);
+  font-size: if($mobile, var(--text-display-mobile-size), var(--text-display-size));
+}
+
+@mixin text-headline($level: 'h1') {
+  font-family: var(--font-headline);
+  text-transform: uppercase;
+
+  @if $level == 'h1' {
+    font-size: var(--text-h1-size);
+    font-weight: var(--text-h1-weight);
+  } @else if $level == 'h2' {
+    font-size: var(--text-h2-size);
+    font-weight: var(--text-h2-weight);
+  } @else if $level == 'h3' {
+    font-size: var(--text-h3-size);
+    font-weight: var(--text-h3-weight);
+  }
+}
+
+@mixin neon-glow {
+  box-shadow: var(--glow-neon);
+}

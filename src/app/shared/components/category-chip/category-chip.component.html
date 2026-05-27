@@ -1,0 +1,5 @@
+@if (href()) {
+  <a [routerLink]="href()" class="chip" [style.background]="cor()">{{ label() }}</a>
+} @else {
+  <span class="chip" [style.background]="cor()">{{ label() }}</span>
+}

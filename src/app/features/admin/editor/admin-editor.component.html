@@ -1,0 +1,170 @@
+<div class="editor">
+  <div class="editor__topbar">
+    <h1 class="editor__titulo">{{ postId() ? 'Editar Post' : 'Novo Post' }}</h1>
+    <div class="editor__topbar-acoes">
+      @if (erro()) {
+        <span class="editor__erro">{{ erro() }}</span>
+      }
+      <button class="editor__btn-salvar" (click)="salvar()" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando...' : 'Salvar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="editor__layout">
+    <!-- Área principal -->
+    <div class="editor__main">
+      <div class="editor__campo">
+        <label class="editor__label">Título</label>
+        <input
+          type="text"
+          class="editor__input editor__input--titulo"
+          [ngModel]="titulo()"
+          (ngModelChange)="titulo.set($event)"
+          placeholder="Título do artigo"
+        />
+      </div>
+
+      <div class="editor__campo">
+        <label class="editor__label">Excerpt / Resumo</label>
+        <textarea
+          class="editor__textarea editor__textarea--excerpt"
+          [ngModel]="excerpt()"
+          (ngModelChange)="excerpt.set($event)"
+          placeholder="Breve resumo do artigo (aparece nos cards e meta description)"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="editor__campo">
+        <label class="editor__label">Corpo do artigo (HTML)</label>
+        <textarea
+          class="editor__textarea editor__textarea--corpo"
+          [ngModel]="corpo()"
+          (ngModelChange)="corpo.set($event)"
+          placeholder="Conteúdo completo do artigo (HTML)"
+          rows="24"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Painel lateral -->
+    <aside class="editor__sidebar">
+
+      <div class="editor__painel">
+        <h3 class="editor__painel-titulo">Status</h3>
+        <select
+          class="editor__select"
+          [ngModel]="status()"
+          (ngModelChange)="status.set($event)"
+        >
+          @for (s of statusOpcoes; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="editor__painel">
+        <h3 class="editor__painel-titulo">Categoria</h3>
+        <select
+          class="editor__select"
+          [ngModel]="categoriaId()"
+          (ngModelChange)="categoriaId.set($event)"
+        >
+          <option value="">Selecionar...</option>
+          @for (cat of categorias(); track cat.id) {
+            <option [value]="cat.id">{{ cat.nome }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="editor__painel">
+        <h3 class="editor__painel-titulo">Tags</h3>
+        <div class="editor__tags">
+          @for (tag of tags(); track tag.id) {
+            <label class="editor__tag-label">
+              <input
+                type="checkbox"
+                [checked]="tagsIds().includes(tag.id)"
+                (change)="toggleTag(tag.id)"
+              />
+              {{ tag.nome }}
+            </label>
+          }
+        </div>
+      </div>
+
+      <div class="editor__painel">
+        <h3 class="editor__painel-titulo">Capa</h3>
+
+        <label class="editor__upload-btn" [class.editor__upload-btn--disabled]="uploading()">
+          <input
+            type="file"
+            accept="image/*"
+            class="editor__upload-input"
+            [disabled]="uploading()"
+            (change)="uploadCapa($event)"
+          />
+          {{ uploading() ? 'Enviando ' + uploadProgress() + '%…' : 'Selecionar imagem' }}
+        </label>
+
+        @if (uploading()) {
+          <div class="editor__progress">
+            <div class="editor__progress-bar" [style.width.%]="uploadProgress()"></div>
+          </div>
+        }
+
+        @if (coverUrl()) {
+          <img [src]="coverUrl()" alt="Prévia da capa" class="editor__cover-preview" loading="lazy" />
+          <button type="button" class="editor__cover-remover" (click)="coverUrl.set('')">Remover capa</button>
+        }
+      </div>
+
+      <div class="editor__painel">
+        <h3 class="editor__painel-titulo">YouTube</h3>
+        <input
+          type="text"
+          class="editor__input"
+          [ngModel]="youtubeId()"
+          (ngModelChange)="youtubeId.set($event)"
+          placeholder="ID do vídeo (ex: dQw4w9WgXcQ)"
+        />
+      </div>
+
+      <div class="editor__painel">
+        <h3 class="editor__painel-titulo">SEO</h3>
+        <div class="editor__campo">
+          <label class="editor__label editor__label--sm">Meta Title</label>
+          <input
+            type="text"
+            class="editor__input"
+            [ngModel]="metaTitle()"
+            (ngModelChange)="metaTitle.set($event)"
+            placeholder="Deixe em branco para usar o título"
+          />
+        </div>
+        <div class="editor__campo">
+          <label class="editor__label editor__label--sm">Meta Description</label>
+          <textarea
+            class="editor__textarea"
+            [ngModel]="metaDescription()"
+            (ngModelChange)="metaDescription.set($event)"
+            placeholder="Deixe em branco para usar o excerpt"
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="editor__campo">
+          <label class="editor__label editor__label--sm">Tempo de leitura (min)</label>
+          <input
+            type="number"
+            class="editor__input"
+            [ngModel]="tempoDeLeituraMin()"
+            (ngModelChange)="tempoDeLeituraMin.set(+$event)"
+            min="1"
+          />
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>

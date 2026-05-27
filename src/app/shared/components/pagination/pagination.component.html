@@ -1,0 +1,34 @@
+@if (totalPaginas() > 1) {
+  <nav class="pagination" aria-label="Paginação">
+    @if (paginaAtual() > 1) {
+      <a
+        class="pagination__btn"
+        [routerLink]="[]"
+        [queryParams]="{ p: paginaAtual() - 1 }"
+        queryParamsHandling="merge"
+        aria-label="Página anterior"
+      >&lsaquo;</a>
+    }
+
+    @for (p of paginas(); track p) {
+      <a
+        class="pagination__btn"
+        [class.pagination__btn--ativo]="p === paginaAtual()"
+        [routerLink]="[]"
+        [queryParams]="{ p }"
+        queryParamsHandling="merge"
+        [attr.aria-current]="p === paginaAtual() ? 'page' : null"
+      >{{ p }}</a>
+    }
+
+    @if (paginaAtual() < totalPaginas()) {
+      <a
+        class="pagination__btn"
+        [routerLink]="[]"
+        [queryParams]="{ p: paginaAtual() + 1 }"
+        queryParamsHandling="merge"
+        aria-label="Próxima página"
+      >&rsaquo;</a>
+    }
+  </nav>
+}

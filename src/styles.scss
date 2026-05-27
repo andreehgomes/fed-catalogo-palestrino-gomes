@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'styles/tokens';
+
+// ─── Aliases de compatibilidade ──────────────────────────────────────────────
+:root {
+  --color-verde:          var(--color-primary);
+  --color-verde-claro:    var(--color-on-primary-container);
+  --color-borda:          var(--color-outline-variant);
+  --color-fundo-alt:      var(--color-surface-card);
+  --color-texto:          var(--color-text-primary);
+  --color-texto-suave:    var(--color-text-muted);
+  --font-heading:         var(--font-headline);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--color-background-deep);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-height);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

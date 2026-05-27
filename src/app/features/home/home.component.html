@@ -1,0 +1,32 @@
+@if (destaque()) {
+  <section class="home__hero">
+    <app-hero-card [post]="destaque()!" />
+  </section>
+}
+
+<app-ad-slot slotId="home-top" formato="leaderboard" class="home__ad" />
+
+<section class="home__grid">
+  <h2 class="home__section-title">Últimas Publicações</h2>
+  <div class="home__cards">
+    @for (post of recentes(); track post.id) {
+      <app-article-card [post]="post" [categoriaPilar]="pilarDoPost(post)" />
+    }
+  </div>
+</section>
+
+@for (secao of pilares; track secao.pilar) {
+  @if (postsPorPilar(secao.pilar).length) {
+    <section class="home__pilar">
+      <h2 class="home__section-title home__section-title--pilar" [attr.data-pilar]="secao.pilar">
+        {{ secao.label }}
+      </h2>
+      <div class="home__cards">
+        @for (post of postsPorPilar(secao.pilar); track post.id) {
+          <app-article-card [post]="post" [categoriaPilar]="secao.pilar" />
+        }
+      </div>
+    </section>
+    <app-ad-slot [slotId]="'pilar-' + secao.pilar" formato="rectangle" class="home__ad" />
+  }
+}

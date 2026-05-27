@@ -1,0 +1,48 @@
+<div class="admin-config">
+  <h1 class="admin-config__titulo">Configurações</h1>
+
+  <div class="admin-config__form">
+    <div class="admin-config__campo">
+      <label class="admin-config__label">Publisher ID do AdSense</label>
+      <input
+        type="text"
+        class="admin-config__input"
+        [ngModel]="publisherId()"
+        (ngModelChange)="publisherId.set($event)"
+        placeholder="pub-XXXXXXXXXXXXXXXX"
+      />
+      <small class="admin-config__hint">Preencha após aprovação no AdSense. Usado nos slots e no ads.txt.</small>
+    </div>
+
+    <div class="admin-config__campo">
+      <label class="admin-config__label">Texto da página "Sobre"</label>
+      <textarea
+        class="admin-config__textarea"
+        [ngModel]="textoSobre()"
+        (ngModelChange)="textoSobre.set($event)"
+        rows="6"
+        placeholder="Texto exibido na página /sobre"
+      ></textarea>
+    </div>
+
+    <div class="admin-config__campo">
+      <label class="admin-config__label">Texto da página "Contato"</label>
+      <textarea
+        class="admin-config__textarea"
+        [ngModel]="textoContato()"
+        (ngModelChange)="textoContato.set($event)"
+        rows="4"
+        placeholder="Texto exibido na página /contato"
+      ></textarea>
+    </div>
+
+    <div class="admin-config__acoes">
+      <button class="admin-config__btn" (click)="salvar()" [disabled]="salvando()">
+        {{ salvando() ? 'Salvando...' : 'Salvar Configurações' }}
+      </button>
+      @if (salvo()) {
+        <span class="admin-config__sucesso">Salvo com sucesso!</span>
+      }
+    </div>
+  </div>
+</div>

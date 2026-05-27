@@ -1,0 +1,57 @@
+<div class="at__wrap">
+  <table class="at__tabela">
+    <thead>
+      <tr>
+        @for (col of colunas; track col.chave) {
+          <th [style.width]="col.width ?? ''">{{ col.label }}</th>
+        }
+        <th class="at__th-acoes">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (linha of linhas; track linha['id']) {
+        <tr>
+          @for (col of colunas; track col.chave) {
+            <td>
+              @switch (col.tipo) {
+                @case ('data') {
+                  {{ asDate(valor(linha, col.chave)) | date: 'dd/MM/yyyy' }}
+                }
+                @case ('moeda') {
+                  {{ asNumber(valor(linha, col.chave)) | currency: 'BRL' }}
+                }
+                @case ('badge-status') {
+                  <span class="at__badge at__badge--status" [attr.data-status]="asString(valor(linha, col.chave))">
+                    {{ asString(valor(linha, col.chave)) }}
+                  </span>
+                }
+                @case ('badge-pilar') {
+                  <span class="at__badge at__badge--pilar" [attr.data-pilar]="asString(valor(linha, col.chave))">
+                    {{ asString(valor(linha, col.chave)) }}
+                  </span>
+                }
+                @default {
+                  {{ asString(valor(linha, col.chave)) }}
+                }
+              }
+            </td>
+          }
+          <td>
+            <div class="at__acoes">
+              @if (editLink) {
+                <a [routerLink]="editLink(linha)" class="at__acao at__acao--editar">Editar</a>
+              } @else {
+                <button class="at__acao at__acao--editar" (click)="editar.emit(linha)">Editar</button>
+              }
+              <button class="at__acao at__acao--excluir" (click)="excluir.emit(asString(linha['id']))">Excluir</button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td [attr.colspan]="colunas.length + 1" class="at__vazio">{{ msgVazia }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
