@@ -8,9 +8,36 @@
         <label class="admin-crud__label">Título</label>
         <input type="text" class="admin-crud__input" [ngModel]="novoTitulo()" (ngModelChange)="novoTitulo.set($event)" placeholder="Nome do produto" />
       </div>
-      <div class="admin-crud__campo">
-        <label class="admin-crud__label">URL da Imagem</label>
-        <input type="url" class="admin-crud__input" [ngModel]="novaImagemUrl()" (ngModelChange)="novaImagemUrl.set($event)" placeholder="https://..." />
+      <div class="admin-crud__campo admin-crud__campo--full">
+        <label class="admin-crud__label">Imagem do Produto</label>
+        <button
+          type="button"
+          class="admin-crud__upload-btn"
+          [class.admin-crud__upload-btn--disabled]="uploading()"
+          [disabled]="uploading()"
+          (click)="fileInput.click()"
+        >{{ uploading() ? 'Enviando ' + uploadProgress() + '%…' : 'Selecionar imagem' }}</button>
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          style="display:none"
+          (change)="uploadImagem($event)"
+        />
+        @if (uploading()) {
+          <div class="admin-crud__progress">
+            <div class="admin-crud__progress-bar" [style.width.%]="uploadProgress()"></div>
+          </div>
+        }
+        @if (novaImagemUrl()) {
+          <img [src]="novaImagemUrl()" alt="Prévia do produto" class="admin-crud__imagem-preview" loading="lazy" />
+          <button type="button" class="admin-crud__imagem-remover" (click)="novaImagemUrl.set('')">Remover imagem</button>
+        } @else {
+          <input type="url" class="admin-crud__input" [ngModel]="novaImagemUrl()" (ngModelChange)="novaImagemUrl.set($event)" placeholder="Ou cole uma URL de imagem" />
+        }
+        @if (erro()) {
+          <span class="admin-crud__erro">{{ erro() }}</span>
+        }
       </div>
       <div class="admin-crud__campo">
         <label class="admin-crud__label">Preço (R$)</label>

@@ -9,11 +9,15 @@
 .navbar__inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--space-margin-mobile);
   height: 60px;
   display: flex;
   align-items: center;
   gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    padding-inline: var(--space-margin-desktop);
+  }
 }
 
 .navbar__logo {

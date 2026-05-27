@@ -13,8 +13,10 @@ import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fir
 import { PostService } from '../../../core/services/post.service';
 import { CategoriaService } from '../../../core/services/categoria.service';
 import { TagService } from '../../../core/services/tag.service';
+import { ProdutoAfiliadoService } from '../../../core/services/produto-afiliado.service';
 import { Post, PostStatus } from '../../../core/models/post.model';
 import { Categoria } from '../../../core/models/categoria.model';
+import { ProdutoAfiliado } from '../../../core/models/produto-afiliado.model';
 
 @Component({
   selector: 'app-admin-editor',
@@ -31,9 +33,11 @@ export class AdminEditorComponent implements OnInit {
   private postService = inject(PostService);
   private categoriaService = inject(CategoriaService);
   private tagService = inject(TagService);
+  private produtoService = inject(ProdutoAfiliadoService);
 
   categorias = toSignal(this.categoriaService.getTodas(), { initialValue: [] as Categoria[] });
   tags = toSignal(this.tagService.getTodas(), { initialValue: [] });
+  produtos = toSignal(this.produtoService.getTodos(), { initialValue: [] as ProdutoAfiliado[] });
 
   postId = signal<string | null>(null);
   salvando = signal(false);
@@ -48,6 +52,8 @@ export class AdminEditorComponent implements OnInit {
   youtubeId = signal('');
   categoriaId = signal('');
   tagsIds = signal<string[]>([]);
+  afiliadosIds = signal<string[]>([]);
+  buscaAfiliado = signal('');
   status = signal<PostStatus>('rascunho');
   metaTitle = signal('');
   metaDescription = signal('');
@@ -56,6 +62,18 @@ export class AdminEditorComponent implements OnInit {
   categoriaSlugSelecionada = computed(() => {
     const cat = this.categorias().find(c => c.id === this.categoriaId());
     return cat?.slug ?? '';
+  });
+
+  produtosSelecionados = computed(() =>
+    this.produtos().filter(p => this.afiliadosIds().includes(p.id)),
+  );
+
+  produtosFiltrados = computed(() => {
+    const busca = this.buscaAfiliado().toLowerCase().trim();
+    return this.produtos()
+      .filter(p => !this.afiliadosIds().includes(p.id))
+      .filter(p => !busca || p.titulo.toLowerCase().includes(busca))
+      .slice(0, 8);
   });
 
   readonly statusOpcoes: PostStatus[] = ['rascunho', 'publicado', 'agendado'];
@@ -78,6 +96,7 @@ export class AdminEditorComponent implements OnInit {
     this.youtubeId.set(post.youtubeId ?? '');
     this.categoriaId.set(post.categoriaId);
     this.tagsIds.set(post.tags ?? []);
+    this.afiliadosIds.set(post.afiliados ?? []);
     this.status.set(post.status);
     this.metaTitle.set(post.metaTitle ?? '');
     this.metaDescription.set(post.metaDescription ?? '');
@@ -110,7 +129,7 @@ export class AdminEditorComponent implements OnInit {
       slug,
       publicadoEm: new Date(),
       atualizadoEm: new Date(),
-      afiliados: [],
+      afiliados: this.afiliadosIds(),
     };
     const payload = Object.fromEntries(
       Object.entries(raw).filter(([, v]) => v !== undefined),
@@ -172,6 +191,15 @@ export class AdminEditorComponent implements OnInit {
       this.tagsIds.set(atual.filter(t => t !== id));
     } else {
       this.tagsIds.set([...atual, id]);
+    }
+  }
+
+  toggleAfiliado(id: string): void {
+    const atual = this.afiliadosIds();
+    if (atual.includes(id)) {
+      this.afiliadosIds.set(atual.filter(a => a !== id));
+    } else {
+      this.afiliadosIds.set([...atual, id]);
     }
   }
 }

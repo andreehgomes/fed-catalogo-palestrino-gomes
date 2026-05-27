@@ -95,18 +95,57 @@
       </div>
 
       <div class="editor__painel">
+        <h3 class="editor__painel-titulo">Produtos Afiliados</h3>
+
+        @if (produtosSelecionados().length) {
+          <div class="editor__afiliados-chips">
+            @for (p of produtosSelecionados(); track p.id) {
+              <span class="editor__afiliado-chip">
+                {{ p.titulo }}
+                <button type="button" class="editor__afiliado-chip-remover" (click)="toggleAfiliado(p.id)" aria-label="Remover">×</button>
+              </span>
+            }
+          </div>
+        }
+
+        <input
+          type="text"
+          class="editor__input"
+          [ngModel]="buscaAfiliado()"
+          (ngModelChange)="buscaAfiliado.set($event)"
+          placeholder="Buscar produto..."
+        />
+
+        @if (buscaAfiliado() || produtosFiltrados().length) {
+          <ul class="editor__afiliados-lista">
+            @for (p of produtosFiltrados(); track p.id) {
+              <li class="editor__afiliado-item" (click)="toggleAfiliado(p.id); buscaAfiliado.set('')">
+                {{ p.titulo }}
+              </li>
+            } @empty {
+              <li class="editor__afiliado-item editor__afiliado-item--vazio">Nenhum resultado.</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="editor__painel">
         <h3 class="editor__painel-titulo">Capa</h3>
 
-        <label class="editor__upload-btn" [class.editor__upload-btn--disabled]="uploading()">
-          <input
-            type="file"
-            accept="image/*"
-            class="editor__upload-input"
-            [disabled]="uploading()"
-            (change)="uploadCapa($event)"
-          />
-          {{ uploading() ? 'Enviando ' + uploadProgress() + '%…' : 'Selecionar imagem' }}
-        </label>
+        <button
+          type="button"
+          class="editor__upload-btn"
+          [class.editor__upload-btn--disabled]="uploading()"
+          [disabled]="uploading()"
+          (click)="capaInput.click()"
+        >{{ uploading() ? 'Enviando ' + uploadProgress() + '%…' : 'Selecionar imagem' }}</button>
+        <input
+          #capaInput
+          type="file"
+          accept="image/*"
+          style="display:none"
+          (change)="uploadCapa($event)"
+        />
 
         @if (uploading()) {
           <div class="editor__progress">

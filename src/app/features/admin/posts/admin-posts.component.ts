@@ -6,6 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { PostService } from '../../../core/services/post.service';
 import { Post, PostStatus } from '../../../core/models/post.model';
 import { AdminTabelaComponent, AdminColuna } from '../shared/admin-tabela/admin-tabela.component';
@@ -16,7 +17,7 @@ type Filtro = PostStatus | 'todos';
   selector: 'app-admin-posts',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AdminTabelaComponent],
+  imports: [RouterLink, AdminTabelaComponent],
   templateUrl: './admin-posts.component.html',
   styleUrl: './admin-posts.component.scss',
 })

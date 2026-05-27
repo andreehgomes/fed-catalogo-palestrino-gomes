@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { ProdutoAfiliadoService } from '../../../core/services/produto-afiliado.service';
 import { ProdutoAfiliado } from '../../../core/models/produto-afiliado.model';
 import { AdminTabelaComponent, AdminColuna } from '../shared/admin-tabela/admin-tabela.component';
@@ -21,6 +22,7 @@ import { AdminTabelaComponent, AdminColuna } from '../shared/admin-tabela/admin-
 })
 export class AdminAfiliadosComponent {
   private service = inject(ProdutoAfiliadoService);
+  private storage = inject(Storage);
 
   produtos = toSignal(this.service.getTodos(), { initialValue: [] as ProdutoAfiliado[] });
   linhas = computed(() => this.produtos() as unknown as Record<string, unknown>[]);
@@ -31,6 +33,9 @@ export class AdminAfiliadosComponent {
     { chave: 'preco', label: 'Preço', width: '120px', tipo: 'moeda' },
   ];
   salvando = signal(false);
+  uploading = signal(false);
+  uploadProgress = signal(0);
+  erro = signal('');
 
   novoTitulo = signal('');
   novaImagemUrl = signal('');
@@ -75,6 +80,35 @@ export class AdminAfiliadosComponent {
   async excluir(id: string): Promise<void> {
     if (!confirm('Excluir este produto?')) return;
     await this.service.excluir(id);
+  }
+
+  async uploadImagem(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    const ext = file.name.split('.').pop();
+    const path = `afiliados/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const storageRef = ref(this.storage, path);
+    const task = uploadBytesResumable(storageRef, file);
+
+    this.uploading.set(true);
+    this.uploadProgress.set(0);
+    this.erro.set('');
+
+    await new Promise<void>((resolve, reject) => {
+      task.on(
+        'state_changed',
+        snap => this.uploadProgress.set(Math.round((snap.bytesTransferred / snap.totalBytes) * 100)),
+        err => { this.erro.set('Erro no upload: ' + err.message); this.uploading.set(false); reject(err); },
+        async () => {
+          const url = await getDownloadURL(task.snapshot.ref);
+          this.novaImagemUrl.set(url);
+          this.uploading.set(false);
+          resolve();
+        },
+      );
+    });
   }
 
   private limpar(): void {
