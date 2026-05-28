@@ -23,6 +23,9 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "security": {
+              "allowedHosts": ["palestrinogomes.com.br", "*.run.app"]
+            },
             "assets": [
               {
                 "glob": "**/*",

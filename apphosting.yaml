@@ -4,3 +4,9 @@ runConfig:
   cpu: 1
   memoryMiB: 512
   minInstances: 0
+
+env:
+  - variable: NG_ALLOWED_HOSTS
+    value: "palestrinogomes.com.br,*.run.app"
+    availability:
+      - RUNTIME
