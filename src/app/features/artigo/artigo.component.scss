@@ -74,23 +74,48 @@
   line-height: var(--text-body-height);
   color: var(--color-on-surface);
 
-  h2, h3 {
-    font-family: var(--font-headline);
-    text-transform: uppercase;
-    color: var(--color-display-cream);
-    margin-block: 1.5rem 0.75rem;
-  }
+  ::ng-deep {
+    h2 {
+      font-family: var(--font-headline);
+      text-transform: uppercase;
+      color: var(--color-display-cream);
+      margin-block: 2.5rem 0.75rem;
+    }
 
-  p { margin-bottom: 1rem; }
-  img { max-width: 100%; height: auto; border-radius: var(--radius-sm); }
-  a { color: var(--color-primary); text-decoration: underline; }
+    h3 {
+      font-family: var(--font-headline);
+      text-transform: uppercase;
+      color: var(--color-display-cream);
+      margin-block: 2rem 0.5rem;
+    }
 
-  blockquote {
-    border-left: 4px solid var(--color-primary);
-    padding-left: 1rem;
-    color: var(--color-text-muted);
-    font-style: italic;
-    margin-block: 1rem;
+    p {
+      margin-bottom: 1.25rem;
+      text-align: justify;
+    }
+
+    img { max-width: 100%; height: auto; border-radius: var(--radius-sm); }
+    a { color: var(--color-primary); text-decoration: underline; }
+
+    blockquote {
+      border-left: 4px solid var(--color-primary);
+      padding: 0.75rem 1.25rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-block: 1.75rem;
+    }
+
+    ul, ol {
+      margin-block: 1.25rem;
+      padding-left: 1.75rem;
+
+      li {
+        margin-bottom: 0.5rem;
+        text-align: justify;
+      }
+    }
+
+    strong { font-weight: 700; }
   }
 }
 
