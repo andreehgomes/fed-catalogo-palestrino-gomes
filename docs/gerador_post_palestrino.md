@@ -2,6 +2,7 @@
 
 > Use este documento como prompt base para o Claude gerar os dados completos de um post do site, a partir de um roteiro ou matéria criada com base no `briefing_palestrino_gomes_v9.md`.
 
+
 ---
 
 ## Como usar
