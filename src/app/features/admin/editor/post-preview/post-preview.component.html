@@ -1,0 +1,53 @@
+<article class="preview-artigo">
+  <header class="preview-artigo__header">
+    @if (categoriaNome()) {
+      <p class="preview-artigo__categoria">{{ categoriaNome() }}</p>
+    }
+    <h1 class="preview-artigo__titulo">{{ post().titulo || '(sem título)' }}</h1>
+    @if (post().excerpt) {
+      <p class="preview-artigo__excerpt">{{ post().excerpt }}</p>
+    }
+    <div class="preview-artigo__meta">
+      <span>Por Palestrino Gomes</span>
+      <span>·</span>
+      <time>{{ post().publicadoEm | date: 'dd/MM/yyyy' }}</time>
+      <span>·</span>
+      <span>{{ post().tempoDeLeituraMin }} min de leitura</span>
+    </div>
+  </header>
+
+  @if (post().coverUrl) {
+    <figure class="preview-artigo__cover-figure">
+      <img
+        [src]="post().coverUrl"
+        [alt]="post().titulo"
+        class="preview-artigo__cover"
+        width="1200"
+        height="675"
+      />
+      @if (post().coverCaption || post().coverCredit) {
+        <figcaption class="preview-artigo__cover-caption">
+          @if (post().coverCaption) { <span>{{ post().coverCaption }}</span> }
+          @if (post().coverCredit) { <span class="preview-artigo__cover-credit">{{ post().coverCredit }}</span> }
+        </figcaption>
+      }
+    </figure>
+  }
+
+  @if (post().youtubeId) {
+    <div class="preview-artigo__youtube">
+      <app-youtube-embed [videoId]="post().youtubeId!" />
+    </div>
+  }
+
+  <div class="preview-artigo__corpo" [innerHTML]="corpoSafe()"></div>
+
+  @if (afiliados().length) {
+    <section class="preview-artigo__afiliados">
+      <h2 class="preview-artigo__section-title">Produtos em Destaque</h2>
+      @for (produto of afiliados(); track produto.id) {
+        <app-affiliate-card [produto]="produto" />
+      }
+    </section>
+  }
+</article>

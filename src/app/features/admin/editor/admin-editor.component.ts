@@ -18,12 +18,13 @@ import { ProdutoAfiliadoService } from '../../../core/services/produto-afiliado.
 import { Post, PostStatus } from '../../../core/models/post.model';
 import { Categoria, Pilar } from '../../../core/models/categoria.model';
 import { ProdutoAfiliado } from '../../../core/models/produto-afiliado.model';
+import { PostPreviewComponent } from './post-preview/post-preview.component';
 
 @Component({
   selector: 'app-admin-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, PostPreviewComponent],
   templateUrl: './admin-editor.component.html',
   styleUrl: './admin-editor.component.scss',
 })
@@ -101,6 +102,41 @@ export class AdminEditorComponent implements OnInit {
   });
 
   readonly statusOpcoes: PostStatus[] = ['rascunho', 'publicado', 'agendado'];
+
+  previewAberto = signal(false);
+
+  categoriaNomePreview = computed(
+    () => this.categorias().find(c => c.id === this.categoriaId())?.nome ?? '',
+  );
+
+  postPreview = computed<Post>(() => ({
+    id: this.postId() ?? '',
+    slug: this.gerarSlug(this.titulo()),
+    titulo: this.titulo(),
+    excerpt: this.excerpt(),
+    corpo: this.corpo(),
+    coverUrl: this.coverUrl(),
+    coverCaption: this.coverCaption() || undefined,
+    coverCredit: this.coverCredit() || undefined,
+    youtubeId: this.youtubeId() || undefined,
+    categoriaId: this.categoriaId(),
+    categoriaSlug: this.categoriaSlugSelecionada(),
+    tags: this.tagsIds(),
+    afiliados: this.afiliadosIds(),
+    status: this.status(),
+    destaque: this.destaque() || undefined,
+    metaTitle: this.metaTitle() || undefined,
+    metaDescription: this.metaDescription() || undefined,
+    tempoDeLeituraMin: this.tempoDeLeituraMin(),
+    publicadoEm: new Date(),
+    atualizadoEm: new Date(),
+  }));
+
+  fecharPreviewSeFundo(event: MouseEvent): void {
+    if ((event.target as HTMLElement).classList.contains('editor__preview-overlay')) {
+      this.previewAberto.set(false);
+    }
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

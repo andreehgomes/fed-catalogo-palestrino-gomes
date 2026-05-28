@@ -5,6 +5,9 @@
       @if (erro()) {
         <span class="editor__erro">{{ erro() }}</span>
       }
+      <button class="editor__btn-preview" type="button" (click)="previewAberto.set(true)">
+        Pré-visualizar
+      </button>
       <button class="editor__btn-salvar" (click)="salvar()" [disabled]="salvando()">
         {{ salvando() ? 'Salvando...' : 'Salvar' }}
       </button>
@@ -332,3 +335,29 @@
     </aside>
   </div>
 </div>
+
+@if (previewAberto()) {
+  <div
+    class="editor__preview-overlay"
+    (click)="fecharPreviewSeFundo($event)"
+    (keydown.escape)="previewAberto.set(false)"
+  >
+    <div class="editor__preview-wrapper">
+      <div class="editor__preview-barra">
+        <span class="editor__preview-badge">Pré-visualização</span>
+        <button
+          type="button"
+          class="editor__preview-fechar"
+          (click)="previewAberto.set(false)"
+        >
+          × Fechar
+        </button>
+      </div>
+      <app-post-preview
+        [post]="postPreview()"
+        [categoriaNome]="categoriaNomePreview()"
+        [afiliados]="produtosSelecionados()"
+      />
+    </div>
+  </div>
+}
