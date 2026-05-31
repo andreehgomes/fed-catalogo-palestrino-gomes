@@ -5,6 +5,7 @@ import { makeStateKey, TransferState } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ClassificacaoTabela, ClassificacaoTime } from '../models/classificacao.model';
+import { SSR_ORIGIN } from '../tokens/ssr-origin.token';
 
 const CLASSIFICACAO_KEY = makeStateKey<ClassificacaoTabela>('classificacao');
 const TTL_MS = 2 * 60 * 60 * 1000;
@@ -14,6 +15,7 @@ export class ClassificacaoService {
   private readonly http = inject(HttpClient);
   private readonly transferState = inject(TransferState);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly ssrOrigin = inject(SSR_ORIGIN, { optional: true }) ?? '';
 
   private readonly _cache = signal<{ data: ClassificacaoTabela; ts: number } | null>(null);
 
@@ -29,26 +31,19 @@ export class ClassificacaoService {
       if (cached && Date.now() - cached.ts < TTL_MS) {
         return of(cached.data);
       }
-      // Navegação client-side: usa proxy para evitar CORS
-      return this.http.get<any>('/api/classificacao').pipe(
-        map(res => this.mapear(res)),
-        tap(tabela => this._cache.set({ data: tabela, ts: Date.now() })),
-      );
     }
 
-    // Servidor: chama a API diretamente e popula o TransferState
-    const apiKey = process.env['FOOTBALL_DATA_API_KEY'] ?? '';
-    return this.http
-      .get<any>('https://api.football-data.org/v4/competitions/BSA/standings', {
-        headers: { 'X-Auth-Token': apiKey },
-      })
-      .pipe(
-        map(res => this.mapear(res)),
-        tap(tabela => {
-          this._cache.set({ data: tabela, ts: Date.now() });
+    // SSR: usa http://localhost:PORT/api/classificacao (proxy local com cache Firebase)
+    // Browser: usa /api/classificacao (mesmo proxy, ssrOrigin é string vazia)
+    return this.http.get<any>(`${this.ssrOrigin}/api/classificacao`).pipe(
+      map(res => this.mapear(res)),
+      tap(tabela => {
+        this._cache.set({ data: tabela, ts: Date.now() });
+        if (isPlatformServer(this.platformId)) {
           this.transferState.set(CLASSIFICACAO_KEY, tabela);
-        }),
-      );
+        }
+      }),
+    );
   }
 
   private mapear(res: any): ClassificacaoTabela {

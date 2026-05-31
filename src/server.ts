@@ -7,6 +7,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { readClassificacaoCache, saveClassificacaoCache } from './firebase-cache.server';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -34,21 +35,45 @@ app.get('/sitemap.xml', (_req, res) => {
   res.send(buildSitemapXml(STATIC_URLS));
 });
 
+const CLASSIFICACAO_CACHE_TTL_MS = 60_000;
+
 app.get('/api/classificacao', async (_req, res) => {
+  const cache = await readClassificacaoCache();
+  const cacheAge = cache ? Date.now() - cache.savedAt : Infinity;
+
+  if (cache && cacheAge < CLASSIFICACAO_CACHE_TTL_MS) {
+    res.setHeader('Cache-Control', 'public, max-age=60');
+    res.json(cache.payload);
+    return;
+  }
+
   try {
     const apiKey = process.env['FOOTBALL_DATA_API_KEY'] ?? '';
     const upstream = await fetch(
       'https://api.football-data.org/v4/competitions/BSA/standings',
       { headers: { 'X-Auth-Token': apiKey } },
     );
+
     if (!upstream.ok) {
+      if (cache) {
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(cache.payload);
+        return;
+      }
       res.status(upstream.status).json({ error: 'API error' });
       return;
     }
+
     const data = await upstream.json();
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    saveClassificacaoCache(data);
+    res.setHeader('Cache-Control', 'public, max-age=60');
     res.json(data);
   } catch {
+    if (cache) {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json(cache.payload);
+      return;
+    }
     res.status(503).json({ error: 'Serviço indisponível' });
   }
 });

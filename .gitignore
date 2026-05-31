@@ -4,6 +4,10 @@
 .env
 .env.local
 
+# Credenciais Firebase (nunca commitar)
+*service-account*.json
+firebase-adminsdk*.json
+
 # Compiled output
 /dist
 /tmp
