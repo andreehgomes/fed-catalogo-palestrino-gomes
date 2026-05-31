@@ -10,3 +10,8 @@ env:
     value: "palestrinogomes.com.br,*.run.app"
     availability:
       - RUNTIME
+
+  - variable: FOOTBALL_DATA_API_KEY
+    value: "31fe593ef4364142867ebde7f12eaeea"
+    availability:
+      - RUNTIME
