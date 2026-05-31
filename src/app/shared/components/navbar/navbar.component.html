@@ -5,6 +5,9 @@
     </a>
 
     <nav class="navbar__nav" [class.navbar__nav--aberto]="menuAberto()" aria-label="Menu principal">
+      <a routerLink="/classificacao" routerLinkActive="navbar__link--ativo" class="navbar__link">
+        Classificação
+      </a>
       @for (cat of categorias(); track cat.id) {
         <a [routerLink]="['/', cat.slug]" routerLinkActive="navbar__link--ativo" class="navbar__link">
           {{ cat.nome }}

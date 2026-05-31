@@ -87,6 +87,13 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'classificacao',
+    loadComponent: () =>
+      import('./features/classificacao/classificacao.component').then(
+        m => m.ClassificacaoComponent,
+      ),
+  },
   // Rotas de slug dinâmico — devem vir por último
   {
     path: ':categoria',

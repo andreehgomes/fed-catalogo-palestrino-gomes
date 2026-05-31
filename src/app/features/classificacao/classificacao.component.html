@@ -1,0 +1,66 @@
+<section class="classificacao">
+  <h1 class="classificacao__titulo">Brasileirão Série A {{ tabela()?.temporada }}</h1>
+
+  @if (tabela(); as t) {
+    <p class="classificacao__meta">
+      {{ t.rodadaAtual }}ª rodada &middot;
+      Atualizado em {{ t.atualizadoEm | date: 'dd/MM/yyyy HH:mm' }}
+    </p>
+
+    <div class="classificacao__wrapper">
+      <table class="classificacao__tabela" aria-label="Tabela de classificação do Brasileirão">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="col-time">Time</th>
+            <th scope="col" class="col-pts">Pts</th>
+            <th scope="col">PJ</th>
+            <th scope="col">V</th>
+            <th scope="col" class="col-ocultar-mobile">E</th>
+            <th scope="col" class="col-ocultar-mobile">D</th>
+            <th scope="col" class="col-ocultar-mobile">GP</th>
+            <th scope="col" class="col-ocultar-mobile">GC</th>
+            <th scope="col">SG</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (time of t.times; track time.posicao) {
+            <tr [class]="zonaClasse(time.posicao)" [class.palmeiras]="ehPalmeiras(time.nome)">
+              <td class="col-pos">{{ time.posicao }}</td>
+              <td class="col-time">
+                <img
+                  [src]="time.escudoUrl"
+                  [alt]="time.nome"
+                  width="24"
+                  height="24"
+                  loading="lazy"
+                  class="escudo"
+                />
+                <span class="time-nome">{{ time.nomeAbreviado }}</span>
+              </td>
+              <td class="col-pts">{{ time.pontos }}</td>
+              <td>{{ time.jogos }}</td>
+              <td>{{ time.vitorias }}</td>
+              <td class="col-ocultar-mobile">{{ time.empates }}</td>
+              <td class="col-ocultar-mobile">{{ time.derrotas }}</td>
+              <td class="col-ocultar-mobile">{{ time.golsPro }}</td>
+              <td class="col-ocultar-mobile">{{ time.golsContra }}</td>
+              <td>{{ time.saldoGols > 0 ? '+' + time.saldoGols : time.saldoGols }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="classificacao__fonte">
+      Dados:
+      <a href="https://www.football-data.org" target="_blank" rel="noopener">football-data.org</a>
+    </p>
+  } @else if (erro()) {
+    <p class="classificacao__erro">
+      Não foi possível carregar a tabela. Tente novamente em alguns minutos.
+    </p>
+  } @else {
+    <div class="classificacao__loading" aria-live="polite">Carregando tabela...</div>
+  }
+</section>

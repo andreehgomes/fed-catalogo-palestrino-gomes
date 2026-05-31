@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -31,6 +32,25 @@ ${urlEntries}
 app.get('/sitemap.xml', (_req, res) => {
   res.header('Content-Type', 'text/xml; charset=utf-8');
   res.send(buildSitemapXml(STATIC_URLS));
+});
+
+app.get('/api/classificacao', async (_req, res) => {
+  try {
+    const apiKey = process.env['FOOTBALL_DATA_API_KEY'] ?? '';
+    const upstream = await fetch(
+      'https://api.football-data.org/v4/competitions/BSA/standings',
+      { headers: { 'X-Auth-Token': apiKey } },
+    );
+    if (!upstream.ok) {
+      res.status(upstream.status).json({ error: 'API error' });
+      return;
+    }
+    const data = await upstream.json();
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.json(data);
+  } catch {
+    res.status(503).json({ error: 'Serviço indisponível' });
+  }
 });
 
 /**

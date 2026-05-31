@@ -9,6 +9,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'privacidade', renderMode: RenderMode.Server },
   { path: 'aviso-ia', renderMode: RenderMode.Server },
   { path: 'busca', renderMode: RenderMode.Server },
+  { path: 'classificacao', renderMode: RenderMode.Server },
   { path: 'admin/login', renderMode: RenderMode.Client },
   { path: 'admin/**', renderMode: RenderMode.Client },
   { path: ':categoria', renderMode: RenderMode.Server },

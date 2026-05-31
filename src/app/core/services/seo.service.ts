@@ -21,6 +21,15 @@ export class SeoService {
     );
   }
 
+  setClassificacao(): void {
+    const ano = new Date().getFullYear();
+    this.setBasic(
+      `Classificação Campeonato Brasileiro ${ano} | ${SITE_NAME}`,
+      `Tabela de classificação do Brasileirão Série A ${ano} atualizada. Veja a posição do Palmeiras e de todos os times.`,
+      `${BASE_URL}/classificacao`,
+    );
+  }
+
   setCategoria(cat: Categoria): void {
     const url = `${BASE_URL}/${cat.slug}`;
     this.setBasic(`${cat.nome} | ${SITE_NAME}`, cat.descricao, url);
