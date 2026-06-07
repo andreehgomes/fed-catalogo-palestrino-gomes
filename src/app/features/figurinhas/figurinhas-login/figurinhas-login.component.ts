@@ -4,6 +4,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take } from 'rxjs/operators';
 import { FigurinhasAuthService } from '../services/figurinhas-auth.service';
 import { FigurinhasService } from '../services/figurinhas.service';
+import { mensagemErroLoginGoogle } from '../../../core/services/auth-error.util';
 
 @Component({
   selector: 'app-figurinhas-login',
@@ -54,8 +55,8 @@ export class FigurinhasLoginComponent {
           .subscribe();
       }
       this.router.navigate(['/figurinhas/album']);
-    } catch {
-      this.erro.set('Não foi possível entrar. Tente novamente.');
+    } catch (e: unknown) {
+      this.erro.set(mensagemErroLoginGoogle(e));
     } finally {
       this.carregando.set(false);
     }
