@@ -39,7 +39,15 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "externalDependencies": [
+              "firebase-admin",
+              "@grpc/grpc-js",
+              "@grpc/proto-loader",
+              "protobufjs",
+              "express",
+              "dotenv"
+            ]
           },
           "configurations": {
             "production": {

@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   computed,
+  effect,
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -38,7 +38,7 @@ import { ProdutoAfiliado } from '../../core/models/produto-afiliado.model';
   templateUrl: './artigo.component.html',
   styleUrl: './artigo.component.scss',
 })
-export class ArtigoComponent implements OnInit {
+export class ArtigoComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly postService = inject(PostService);
   private readonly categoriaService = inject(CategoriaService);
@@ -108,13 +108,17 @@ export class ArtigoComponent implements OnInit {
     { label: this.post()?.titulo ?? '' },
   ]);
 
-  ngOnInit(): void {
-    const post = this.post();
-    const cat = this.cat();
-    if (post && cat) {
-      this.seoService.setArtigo(post, cat.slug);
-      this.seoService.addArtigoJsonLd(post, cat.slug, cat.nome);
-    }
+  constructor() {
+    // effect() em vez de ngOnInit: os dados chegam async do Firestore,
+    // então no ngOnInit post()/cat() ainda são undefined e o SEO nunca era aplicado.
+    effect(() => {
+      const post = this.post();
+      const cat = this.cat();
+      if (post && cat) {
+        this.seoService.setArtigo(post, cat.slug);
+        this.seoService.addArtigoJsonLd(post, cat.slug, cat.nome);
+      }
+    });
   }
 
   shareWhatsApp = computed(() => {

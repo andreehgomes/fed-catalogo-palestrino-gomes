@@ -8,31 +8,23 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 import { readClassificacaoCache, saveClassificacaoCache } from './firebase-cache.server';
+import { getSitemapXml } from './sitemap.server';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
 
-const BASE_URL = 'https://palestrinogomes.com.br';
+// trustProxyHeaders: atrás do Cloud Run / Firebase App Hosting as requisições chegam
+// com headers X-Forwarded-* setados pelo load balancer do Google. Sem confiar neles,
+// o Angular deopta TODAS as rotas para CSR (página vazia) — o que quebra SEO e AdSense.
+// A validação de host continua ativa via NG_ALLOWED_HOSTS / security.allowedHosts.
+const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
 
-const STATIC_URLS = ['', 'sobre', 'contato', 'privacidade', 'aviso-ia'].map(
-  path => `${BASE_URL}${path ? '/' + path : ''}`,
-);
-
-function buildSitemapXml(urls: string[]): string {
-  const urlEntries = urls
-    .map(loc => `  <url><loc>${loc}</loc></url>`)
-    .join('\n');
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlEntries}
-</urlset>`;
-}
-
-app.get('/sitemap.xml', (_req, res) => {
+app.get('/sitemap.xml', async (_req, res) => {
+  const xml = await getSitemapXml();
   res.header('Content-Type', 'text/xml; charset=utf-8');
-  res.send(buildSitemapXml(STATIC_URLS));
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(xml);
 });
 
 const CLASSIFICACAO_CACHE_TTL_MS = 60_000;

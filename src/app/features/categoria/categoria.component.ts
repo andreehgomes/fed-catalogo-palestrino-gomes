@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   computed,
+  effect,
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -28,7 +28,7 @@ const PAGE_SIZE = 12;
   templateUrl: './categoria.component.html',
   styleUrl: './categoria.component.scss',
 })
-export class CategoriaComponent implements OnInit {
+export class CategoriaComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly postService = inject(PostService);
   private readonly categoriaService = inject(CategoriaService);
@@ -67,10 +67,14 @@ export class CategoriaComponent implements OnInit {
     { label: this.cat()?.nome ?? '' },
   ]);
 
-  ngOnInit(): void {
-    const cat = this.cat();
-    if (cat) {
-      this.seoService.setCategoria(cat);
-    }
+  constructor() {
+    // effect() em vez de ngOnInit: cat() chega async do Firestore,
+    // então no ngOnInit ainda é undefined e o SEO nunca era aplicado.
+    effect(() => {
+      const cat = this.cat();
+      if (cat) {
+        this.seoService.setCategoria(cat);
+      }
+    });
   }
 }
