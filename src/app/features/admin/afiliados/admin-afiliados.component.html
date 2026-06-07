@@ -51,6 +51,17 @@
         <label class="admin-crud__label">Texto de Disclosure</label>
         <input type="text" class="admin-crud__input" [ngModel]="novoDisclosure()" (ngModelChange)="novoDisclosure.set($event)" />
       </div>
+      <div class="admin-crud__campo admin-crud__campo--full">
+        <label class="admin-crud__check-label">
+          <input
+            type="checkbox"
+            [ngModel]="novoExibirFigurinhas()"
+            (ngModelChange)="novoExibirFigurinhas.set($event)"
+          />
+          Exibir nas páginas de Figurinhas
+          <small>(aparece na vitrine do Álbum e da página de Trocas)</small>
+        </label>
+      </div>
     </div>
     <div class="admin-crud__form-acoes">
       <button class="admin-crud__btn admin-crud__btn--salvar" (click)="salvar()" [disabled]="salvando()">

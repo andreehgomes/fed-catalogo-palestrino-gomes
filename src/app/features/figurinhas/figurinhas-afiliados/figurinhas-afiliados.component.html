@@ -1,0 +1,27 @@
+@if (produtos().length) {
+  <section class="fig-afiliados">
+    <div class="fig-afiliados__head">
+      <h2 class="fig-afiliados__titulo">Para completar sua coleção</h2>
+      <div class="fig-afiliados__nav">
+        <button
+          type="button"
+          class="fig-afiliados__nav-btn"
+          (click)="rolar(-1)"
+          aria-label="Produtos anteriores"
+        >‹</button>
+        <button
+          type="button"
+          class="fig-afiliados__nav-btn"
+          (click)="rolar(1)"
+          aria-label="Próximos produtos"
+        >›</button>
+      </div>
+    </div>
+
+    <div class="fig-afiliados__track" #track>
+      @for (produto of produtos(); track produto.id) {
+        <app-affiliate-card class="fig-afiliados__item" [produto]="produto" />
+      }
+    </div>
+  </section>
+}

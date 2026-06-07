@@ -1,7 +1,9 @@
 .affiliate-card {
   display: flex;
+  flex-wrap: wrap; // em containers estreitos, o texto desce para baixo da imagem
   gap: 1rem;
   padding: 1rem;
+  height: 100%; // alinha a altura quando usado em grid
   border: 1px solid var(--color-borda);
   border-radius: var(--radius-md);
   background: var(--color-fundo-alt);
@@ -14,7 +16,13 @@
   flex-shrink: 0;
 }
 
-.affiliate-card__body { display: flex; flex-direction: column; gap: 0.5rem; }
+.affiliate-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 170px; // se não couber ao lado da imagem, quebra a linha
+}
 .affiliate-card__titulo { font-weight: 600; font-size: 0.9375rem; margin: 0; }
 .affiliate-card__preco { font-size: 1.25rem; font-weight: 700; color: var(--color-verde); margin: 0; }
 

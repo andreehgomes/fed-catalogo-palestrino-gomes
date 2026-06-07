@@ -54,6 +54,30 @@
     color: var(--color-text-muted);
   }
 
+  &__check-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+
+    input[type='checkbox'] {
+      accent-color: var(--color-primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    small {
+      font-weight: 400;
+      opacity: 0.7;
+    }
+  }
+
   &__input,
   &__select,
   &__textarea {

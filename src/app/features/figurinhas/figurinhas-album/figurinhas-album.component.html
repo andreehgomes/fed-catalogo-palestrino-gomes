@@ -1,0 +1,169 @@
+@if (carregando()) {
+  <div class="album-loading">Carregando seu álbum...</div>
+} @else {
+  <app-ad-slot slotId="figurinhas-album-top" formato="leaderboard" class="album-ad" />
+
+  <app-figurinhas-afiliados />
+
+  <div class="album">
+    <!-- Stats -->
+    <div class="album-stats">
+      <div class="stat">
+        <span class="stat__valor">{{ totalTenho() }}</span>
+        <span class="stat__label">Tenho</span>
+      </div>
+      <div class="stat stat--faltando">
+        <span class="stat__valor">{{ totalFaltando() }}</span>
+        <span class="stat__label">Faltando</span>
+      </div>
+      <div class="stat stat--repetida">
+        <span class="stat__valor">{{ totalRepetidas() }}</span>
+        <span class="stat__label">Com repetida</span>
+      </div>
+      <div class="stat stat--total">
+        <span class="stat__valor">{{ totalFigurinhas }}</span>
+        <span class="stat__label">Total</span>
+      </div>
+      @if (salvando()) {
+        <span class="album-saving">Salvando...</span>
+      }
+    </div>
+
+    <!-- Legenda -->
+    <div class="album-legend">
+      <span class="legend-item">
+        <span class="fig-card fig-card--vazia fig-card--mini"></span> Não tenho
+      </span>
+      <span class="legend-item">
+        <span class="fig-card fig-card--tenho fig-card--mini"></span> Tenho (1×)
+      </span>
+      <span class="legend-item">
+        <span class="fig-card fig-card--repetida fig-card--mini"></span> Repetida (2×+)
+      </span>
+      <span class="legend-item legend-item--dica">
+        Clique <strong>+</strong> para adicionar cópias, <strong>−</strong> para remover
+      </span>
+    </div>
+
+    <!-- Contato para trocas -->
+    <div class="album-contato">
+      <div class="album-contato__field">
+        <label class="album-contato__label" for="whatsapp-input">WhatsApp</label>
+        <input
+          id="whatsapp-input"
+          class="album-contato__input"
+          type="tel"
+          placeholder="(11) 99999-8888"
+          [value]="whatsappInput()"
+          (input)="mascaraCelular($event)"
+        />
+      </div>
+      <div class="album-contato__field">
+        <label class="album-contato__label" for="cidade-input">Cidade</label>
+        <input
+          id="cidade-input"
+          class="album-contato__input"
+          type="text"
+          placeholder="Ex: São Paulo - SP"
+          [(ngModel)]="cidadeInput"
+          (ngModelChange)="agendarSalvamento()"
+        />
+      </div>
+      <span class="album-contato__hint">Aparece para outros usuários na busca de trocas</span>
+
+      <div class="album-contato__troca">
+        <label class="album-contato__troca-label" for="aceita-troca">
+          <input
+            id="aceita-troca"
+            type="checkbox"
+            [checked]="aceitaTrocaInput()"
+            (change)="onAceitaTrocaChange($event)"
+          />
+          Aparecer nas trocas
+        </label>
+        <div class="album-contato__troca-info">
+          <button
+            class="troca-info-btn"
+            type="button"
+            (click)="togglePopover()"
+            aria-label="Informações sobre privacidade"
+          >ℹ</button>
+          @if (popoverAberto()) {
+            <div class="troca-popover" role="tooltip">
+              Ao marcar esta opção, você concorda que seu <strong>Nome</strong>, <strong>Foto</strong>,
+              <strong>Telefone</strong> e <strong>E-mail</strong> ficarão visíveis para outros usuários
+              que buscam trocas.
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="album-body">
+      <!-- Sidebar de grupos -->
+      <aside class="album-sidebar">
+        @for (grupo of grupos; track grupo.grupo) {
+          <button
+            class="grupo-btn"
+            [class.active]="grupoAtivo() === grupo.grupo"
+            (click)="selecionarGrupo(grupo.grupo)"
+          >
+            <div class="grupo-btn__top">
+              <span class="grupo-btn__label">{{ grupo.grupo }}</span>
+              <span class="grupo-btn__prog">{{ progressoGrupo(grupo) }}%</span>
+            </div>
+            <span class="grupo-btn__siglas">{{ siglasGrupo(grupo) }}</span>
+          </button>
+        }
+      </aside>
+
+      <!-- Área do grupo ativo -->
+      <section class="album-content">
+        <h2 class="album-content__title">{{ grupoAtivoData().nome }}</h2>
+
+        @for (time of grupoAtivoData().times; track time.sigla) {
+          <div class="time-section">
+            <h3 class="time-section__nome">
+              {{ time.pais }}
+              <span class="time-section__sigla">{{ time.sigla }}</span>
+            </h3>
+            <div class="fig-grid">
+              @for (codigo of time.codigos; track codigo) {
+                <div
+                  class="fig-card"
+                  [class.fig-card--tenho]="estadoFigurinha(codigo) === 'tenho'"
+                  [class.fig-card--repetida]="estadoFigurinha(codigo) === 'repetida'"
+                >
+                  <span class="fig-card__codigo">{{ codigo }}</span>
+
+                  @if (qtdFigurinha(codigo) > 0) {
+                    <span class="fig-card__qty">{{ qtdFigurinha(codigo) }}×</span>
+                  }
+
+                  <div class="fig-card__controles">
+                    @if (qtdFigurinha(codigo) > 0) {
+                      <button
+                        class="fig-card__btn fig-card__btn--menos"
+                        (click)="decrementar(codigo, $event)"
+                        [title]="'Remover cópia de ' + codigo"
+                        aria-label="Remover"
+                      >−</button>
+                    }
+                    <button
+                      class="fig-card__btn fig-card__btn--mais"
+                      (click)="incrementar(codigo, $event)"
+                      [title]="'Adicionar cópia de ' + codigo"
+                      aria-label="Adicionar"
+                    >+</button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </section>
+    </div>
+
+    <app-ad-slot slotId="figurinhas-album-fim" formato="rectangle" class="album-ad" />
+  </div>
+}

@@ -1,0 +1,486 @@
+@use '../../../../styles/tokens' as *;
+
+.album-ad {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.album-loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-body-lg-size);
+}
+
+// ─── Stats ───────────────────────────────────────────────────────────────────
+
+.album-stats {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: 0.875rem 1.25rem;
+  text-align: center;
+  min-width: 80px;
+
+  // Mobile: stats se distribuem justificadas, 2 por linha
+  @media (max-width: 640px) {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+
+  &__valor {
+    display: block;
+    font-family: var(--font-headline);
+    font-size: var(--text-h2-size);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1;
+  }
+
+  &__label {
+    display: block;
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &--faltando .stat__valor { color: var(--color-error); }
+  &--repetida .stat__valor { color: #f59e0b; }
+  &--total    .stat__valor { color: var(--color-primary); }
+}
+
+.album-saving {
+  font-size: var(--text-caption-size);
+  color: var(--color-text-muted);
+  margin-left: auto;
+  opacity: 0.7;
+  animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 0.3; }
+}
+
+// ─── Legenda ─────────────────────────────────────────────────────────────────
+
+.album-legend {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: var(--text-caption-size);
+  color: var(--color-text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &--dica {
+    margin-left: auto;
+    opacity: 0.6;
+    font-style: italic;
+
+    @media (max-width: 640px) { display: none; }
+  }
+}
+
+// ─── Contato para trocas ─────────────────────────────────────────────────────
+
+.album-contato {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    // Mobile: campos ocupam a largura toda (justificado)
+    @media (max-width: 640px) {
+      flex: 1 1 100%;
+    }
+  }
+
+  &__label {
+    font-size: var(--text-caption-size);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__input {
+    padding: 0.375rem 0.75rem;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius);
+    color: var(--color-text-primary);
+    font-size: var(--text-caption-size);
+    width: 180px;
+    transition: border-color 0.15s;
+
+    @media (max-width: 640px) {
+      width: 100%;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+  }
+
+  &__hint {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    opacity: 0.7;
+    font-style: italic;
+    align-self: flex-end;
+    padding-bottom: 0.4rem;
+  }
+
+  &__troca {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    align-self: flex-end;
+    padding-bottom: 0.35rem;
+  }
+
+  &__troca-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+
+    input[type='checkbox'] {
+      accent-color: var(--color-primary);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  }
+
+  &__troca-info {
+    position: relative;
+  }
+}
+
+.troca-info-btn {
+  background: var(--color-primary-container);
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary);
+  font-size: 13px;
+  line-height: 1;
+  padding: 2px 5px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+
+  // Hover: escurece um pouco
+  &:hover {
+    background: color-mix(in srgb, var(--color-primary-container) 70%, black);
+    color: color-mix(in srgb, var(--color-primary) 75%, black);
+  }
+}
+
+.troca-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  width: 260px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  z-index: 200;
+
+  // Seta apontando para o botão ℹ
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 6px;
+    border: 6px solid transparent;
+    border-bottom-color: var(--color-outline-variant);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% - 1px);
+    right: 6px;
+    border: 6px solid transparent;
+    border-bottom-color: var(--color-surface-card);
+    z-index: 1;
+  }
+
+  // Mobile: o botão ℹ fica à esquerda da tela, então ancorar à direita
+  // cortava o popover. Centraliza no botão (e a seta junto).
+  @media (max-width: 640px) {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 32px);
+
+    &::before,
+    &::after {
+      right: auto;
+      left: 50%;
+      margin-left: -6px;
+    }
+  }
+}
+
+// ─── Layout ──────────────────────────────────────────────────────────────────
+
+.album-body {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── Sidebar ─────────────────────────────────────────────────────────────────
+
+.album-sidebar {
+  position: sticky;
+  top: 1rem; // nenhum header fica fixo no scroll, então gruda perto do topo
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  // Mobile: grid de 2 colunas justificadas até as margens
+  @media (max-width: 768px) {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grupo-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.5rem 0.875rem;
+  background: transparent;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: var(--text-caption-size);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  text-align: left;
+  gap: 0.2rem;
+
+  &:hover {
+    background: var(--color-surface-container);
+    color: var(--color-text-primary);
+  }
+
+  &.active {
+    background: var(--color-primary-container);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary-container);
+    font-weight: 600;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    font-family: var(--font-headline);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+
+  &__prog { font-size: 11px; opacity: 0.8; }
+
+  &__siglas {
+    font-size: 10px;
+    opacity: 0.65;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+}
+
+// ─── Área do grupo ────────────────────────────────────────────────────────────
+
+.album-content {
+  &__title {
+    font-family: var(--font-headline);
+    font-size: var(--text-h3-size);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-display-cream);
+    margin: 0 0 1.5rem;
+  }
+}
+
+.time-section {
+  margin-bottom: 2rem;
+
+  &__nome {
+    font-family: var(--font-headline);
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    margin: 0 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__sigla {
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+    font-weight: 400;
+    background: var(--color-surface-container);
+    border-radius: var(--radius-sm);
+    padding: 0.125rem 0.375rem;
+  }
+}
+
+// ─── Grid de figurinhas ───────────────────────────────────────────────────────
+
+// Grid justificado: as colunas se expandem para preencher toda a largura
+// disponível, em qualquer tamanho de tela (sem sobra de espaço lateral).
+.fig-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 0.5rem;
+}
+
+.fig-card {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--color-outline-variant);
+  background: var(--color-surface-container);
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+  overflow: hidden;
+
+  &__codigo {
+    font-family: var(--font-label);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    line-height: 1;
+  }
+
+  &__qty {
+    font-family: var(--font-label);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  // Botões +/− aparecem no hover
+  &__controles {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    position: absolute;
+    bottom: 4px;
+  }
+
+  &:hover &__controles,
+  &:focus-within &__controles {
+    opacity: 1;
+  }
+
+  &__btn {
+    width: 22px;
+    height: 18px;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+
+    &--mais {
+      background: var(--color-primary-container);
+      color: var(--color-on-primary-container);
+      &:hover { background: var(--color-primary); color: var(--color-on-primary); }
+    }
+
+    &--menos {
+      background: var(--color-surface-container-high);
+      color: var(--color-text-muted);
+      &:hover { background: var(--color-error-container); color: var(--color-error); }
+    }
+  }
+
+  // ─── Estados ───────────────────────────────────────────────────────────────
+
+  &--tenho {
+    background: color-mix(in srgb, var(--color-primary-container) 60%, transparent);
+    border-color: var(--color-primary);
+
+    .fig-card__codigo { color: var(--color-on-primary-container); }
+    .fig-card__qty    { color: var(--color-primary); }
+  }
+
+  &--repetida {
+    background: color-mix(in srgb, #78350f 55%, transparent);
+    border-color: #f59e0b;
+
+    .fig-card__codigo { color: #fde68a; }
+    .fig-card__qty    { color: #f59e0b; }
+  }
+
+  // card mini para legenda
+  &--mini {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    .fig-card__controles { display: none; }
+  }
+}

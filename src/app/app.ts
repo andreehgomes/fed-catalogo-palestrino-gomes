@@ -34,6 +34,14 @@ export class App {
     return url.startsWith('/admin');
   });
 
+  // Rotas de figurinhas têm layout próprio (header full-width + container interno),
+  // então ficam fora do main-content do shell.
+  isFigurinhas = computed(() => {
+    const event = this.url();
+    const url = event instanceof NavigationEnd ? event.urlAfterRedirects : this.router.url;
+    return url.startsWith('/figurinhas');
+  });
+
   onConsentimento(valor: ConsentimentoValor): void {
     if (valor === 'aceito') {
       this.analytics.ativar('G-XXXXXXXXXX');

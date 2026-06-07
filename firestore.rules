@@ -9,6 +9,12 @@ service cloud.firestore {
         && request.auth.token.email == 'andrefelipefeliciogomes@gmail.com';
     }
 
+    // Figurinhas Copa 2026: leitura por qualquer autenticado; escrita somente pelo próprio dono
+    match /figurinhas_usuarios/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
     // Categorias, tags, produtos_afiliado, config: leitura pública; escrita só admin
     match /{collection}/{id} {
       allow read: if true;

@@ -2,7 +2,7 @@
   <app-navbar />
 }
 
-<main [class]="isAdmin() ? '' : 'main-content'">
+<main [class]="isAdmin() || isFigurinhas() ? '' : 'main-content'">
   <router-outlet />
 </main>
 

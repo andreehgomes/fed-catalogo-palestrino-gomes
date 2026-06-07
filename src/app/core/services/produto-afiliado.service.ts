@@ -9,6 +9,7 @@ import {
   orderBy,
   setDoc,
   deleteDoc,
+  where,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ProdutoAfiliado } from '../models/produto-afiliado.model';
@@ -20,6 +21,12 @@ export class ProdutoAfiliadoService {
 
   getTodos(): Observable<ProdutoAfiliado[]> {
     const q = query(this.col(), orderBy('titulo'));
+    return collectionData(q, { idField: 'id' }) as Observable<ProdutoAfiliado[]>;
+  }
+
+  /** Produtos marcados no admin para aparecer nas páginas de figurinhas */
+  getExibidosNasFigurinhas(): Observable<ProdutoAfiliado[]> {
+    const q = query(this.col(), where('exibirFigurinhas', '==', true));
     return collectionData(q, { idField: 'id' }) as Observable<ProdutoAfiliado[]>;
   }
 

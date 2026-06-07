@@ -1,0 +1,21 @@
+<a routerLink="/figurinhas/album" class="fig-banner" aria-label="Conheça o Álbum de Figurinhas da Copa 2026">
+  @if (imgOk()) {
+    <img
+      class="fig-banner__img"
+      src="/assets/imagens/banner-figurinhas.png"
+      alt=""
+      loading="lazy"
+      (error)="onImgError()"
+    />
+  }
+
+  <div class="fig-banner__content">
+    <span class="fig-banner__badge">Novo</span>
+    <h2 class="fig-banner__title">Álbum de Figurinhas da Copa 2026</h2>
+    <p class="fig-banner__text">
+      Controle seu álbum, marque as repetidas e descubra com quem trocar.
+    </p>
+  </div>
+
+  <span class="fig-banner__cta">Montar meu álbum →</span>
+</a>

@@ -50,16 +50,49 @@
 
   &:hover,
   &--ativo { color: var(--color-verde); border-bottom-color: var(--color-verde); }
+
+  &--figurinhas {
+    color: var(--color-primary, #80DA92);
+    border-bottom-color: transparent;
+    &:hover { border-bottom-color: var(--color-primary, #80DA92); }
+  }
 }
 
 .navbar__acoes { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+
+.navbar__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-borda);
+  flex-shrink: 0;
+}
+
+.navbar__usuario {
+  font-size: 0.8rem;
+  color: var(--color-texto-suave, #888);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (max-width: 480px) { display: none; }
+}
 .navbar__busca { color: var(--color-texto); display: flex; &:hover { color: var(--color-verde); } }
 
-.navbar__admin-icon {
-  color: var(--color-texto-suave, #888);
+.navbar__entrar {
   display: flex;
-  opacity: 0.6;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-texto-suave, #888);
+  text-decoration: none;
+  opacity: 0.7;
   transition: opacity 0.15s, color 0.15s;
+
   &:hover { opacity: 1; color: var(--color-verde); }
 }
 

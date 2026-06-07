@@ -12,6 +12,7 @@ import { SeoService } from '../../core/services/seo.service';
 import { HeroCardComponent } from '../../shared/components/hero-card/hero-card.component';
 import { ArticleCardComponent } from '../../shared/components/article-card/article-card.component';
 import { AdSlotComponent } from '../../shared/components/ad-slot/ad-slot.component';
+import { FigurinhasBannerComponent } from '../../shared/components/figurinhas-banner/figurinhas-banner.component';
 import { Post } from '../../core/models/post.model';
 import { Pilar } from '../../core/models/categoria.model';
 
@@ -26,7 +27,7 @@ const PILARES: { pilar: Pilar; label: string }[] = [
   selector: 'app-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [HeroCardComponent, ArticleCardComponent, AdSlotComponent],
+  imports: [HeroCardComponent, ArticleCardComponent, AdSlotComponent, FigurinhasBannerComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

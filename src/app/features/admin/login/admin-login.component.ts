@@ -5,7 +5,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -19,11 +19,28 @@ import { AuthService } from '../../../core/services/auth.service';
 export class AdminLoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   email = '';
   senha = '';
   erro = signal('');
   carregando = signal(false);
+  carregandoGoogle = signal(false);
+  erroGoogle = signal('');
+
+  async entrarComGoogle(): Promise<void> {
+    this.carregandoGoogle.set(true);
+    this.erroGoogle.set('');
+    try {
+      await this.auth.loginComGoogle();
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/';
+      this.router.navigateByUrl(returnUrl);
+    } catch {
+      this.erroGoogle.set('Não foi possível entrar. Tente novamente.');
+    } finally {
+      this.carregandoGoogle.set(false);
+    }
+  }
 
   async entrar(): Promise<void> {
     if (!this.email || !this.senha) return;

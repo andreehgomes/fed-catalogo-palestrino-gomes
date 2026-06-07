@@ -1,0 +1,83 @@
+@use '../../../../styles/tokens' as *;
+
+.fig-layout {
+  min-height: 100vh;
+  background: var(--color-background-deep);
+  display: flex;
+  flex-direction: column;
+}
+
+.fig-header {
+  background: var(--color-surface-card);
+  border-bottom: 1px solid var(--color-outline-variant);
+  // Sem sticky: o header principal do site rola junto com a página,
+  // então este header acompanha e some no mesmo momento.
+  position: relative;
+  z-index: 99;
+
+  &__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-margin-desktop);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    @media (max-width: 640px) {
+      padding: 0 var(--space-margin-mobile);
+      gap: 1rem;
+    }
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-headline);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-display-cream);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  &__link {
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-body-size);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--color-surface-container);
+      color: var(--color-text-primary);
+    }
+
+    &.active {
+      background: var(--color-primary-container);
+      color: var(--color-on-primary-container);
+    }
+  }
+
+}
+
+.fig-main {
+  flex: 1;
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem var(--space-margin-desktop);
+
+  @media (max-width: 640px) {
+    padding: 1.5rem var(--space-margin-mobile);
+  }
+}

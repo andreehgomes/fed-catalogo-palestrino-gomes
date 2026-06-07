@@ -1,0 +1,226 @@
+<div class="trocar">
+  <app-ad-slot slotId="figurinhas-trocar-top" formato="leaderboard" class="trocar__ad" />
+
+  <app-figurinhas-afiliados />
+
+  <h2 class="trocar__title">Encontrar Trocas</h2>
+
+  <!-- Seletor de modo -->
+  <div class="modo-tabs">
+    <button
+      class="modo-tab"
+      [class.modo-tab--ativo]="modo() === 'codigo'"
+      (click)="trocarModo('codigo')"
+    >
+      Por código
+    </button>
+    <button
+      class="modo-tab"
+      [class.modo-tab--ativo]="modo() === 'parceiros'"
+      (click)="trocarModo('parceiros')"
+    >
+      Trocas sugeridas
+    </button>
+  </div>
+
+  <!-- Modo: busca por código -->
+  @if (modo() === 'codigo') {
+    <p class="trocar__desc">
+      Digite o código de uma figurinha que você precisa para ver quem tem ela como repetida.
+    </p>
+
+    <div class="busca-bar">
+      <div class="busca-bar__input-wrap">
+        <input
+          class="busca-bar__input"
+          type="text"
+          placeholder="Ex: BRA5, MEX12, FWC3..."
+          [(ngModel)]="busca"
+          (keyup)="onKeyUp($event)"
+          [class.invalid]="busca().length > 1 && !codigoValido()"
+        />
+        @if (busca().length > 1 && !codigoValido()) {
+          <span class="busca-bar__hint">Código não encontrado no álbum</span>
+        }
+      </div>
+
+      <button
+        class="busca-bar__btn"
+        (click)="buscar()"
+        [disabled]="!codigoValido() || buscando()"
+      >
+        @if (buscando()) { Buscando... } @else { Buscar }
+      </button>
+
+      @if (buscaFeita()) {
+        <button class="busca-bar__limpar" (click)="limpar()">Limpar</button>
+      }
+    </div>
+  }
+
+  <!-- Modo: parceiros de troca -->
+  @if (modo() === 'parceiros') {
+    <p class="trocar__desc">
+      Encontre usuários que têm figurinhas que você precisa <strong>e</strong> que precisam das suas repetidas — troca mútua garantida.
+    </p>
+
+    @if (!meuPerfil()) {
+      <p class="trocar__aviso">Carregando seu perfil...</p>
+    } @else if (meuPerfil()!.repetidas.length === 0) {
+      <p class="trocar__aviso">Você ainda não tem figurinhas repetidas para trocar.</p>
+    } @else {
+      <div class="parceiros-info">
+        <span class="parceiros-info__label">Suas repetidas disponíveis:</span>
+        <span class="parceiros-info__qtd">{{ meuPerfil()!.repetidas.length }} figurinha{{ meuPerfil()!.repetidas.length > 1 ? 's' : '' }}</span>
+      </div>
+
+      <div class="busca-bar">
+        <button
+          class="busca-bar__btn"
+          (click)="buscarParceiros()"
+          [disabled]="buscando()"
+        >
+          @if (buscando()) { Buscando... } @else { Buscar trocas }
+        </button>
+
+        @if (buscaFeita()) {
+          <button class="busca-bar__limpar" (click)="limpar()">Limpar</button>
+        }
+      </div>
+    }
+  }
+
+  @if (erro()) {
+    <p class="trocar__erro">{{ erro() }}</p>
+  }
+
+  <!-- Resultados -->
+  @if (buscaFeita()) {
+    @if (resultados().length === 0) {
+      <div class="trocar__vazio">
+        @if (modo() === 'codigo') {
+          <p>Nenhum usuário tem <strong>{{ buscaUpper() }}</strong> como repetida no momento.</p>
+        } @else {
+          <p>Nenhuma troca encontrada no momento.</p>
+        }
+        <p class="trocar__vazio-dica">Tente novamente mais tarde!</p>
+      </div>
+    } @else {
+      <p class="trocar__count">
+        @if (modo() === 'codigo') {
+          {{ resultados().length }} usuário{{ resultados().length > 1 ? 's' : '' }} tem
+          <strong>{{ buscaUpper() }}</strong> repetida
+        } @else {
+          {{ resultados().length }} troca{{ resultados().length > 1 ? 's' : '' }} encontrada{{ resultados().length > 1 ? 's' : '' }}
+        }
+      </p>
+
+      <div class="filtro-cidade">
+        <input
+          class="filtro-cidade__input"
+          type="text"
+          placeholder="Filtrar por cidade..."
+          [(ngModel)]="filtroCidade"
+        />
+        @if (filtroCidade()) {
+          <span class="filtro-cidade__count">
+            {{ resultadosFiltrados().length }} resultado{{ resultadosFiltrados().length !== 1 ? 's' : '' }}
+          </span>
+        }
+      </div>
+
+      <div class="resultados">
+        @for (item of resultadosFiltrados(); track item.usuario.uid) {
+          <div class="resultado-card">
+            <div class="resultado-card__header">
+              @if (item.usuario.photoURL) {
+                <img
+                  [src]="item.usuario.photoURL"
+                  [alt]="item.usuario.displayName"
+                  class="resultado-card__avatar"
+                  referrerpolicy="no-referrer"
+                />
+              }
+              <div class="resultado-card__info">
+                <span class="resultado-card__nome">{{ item.usuario.displayName }}</span>
+                <span class="resultado-card__email">
+                  {{ item.usuario.email }}
+                  @if (item.usuario.cidade) {
+                    <span class="resultado-card__cidade">· {{ item.usuario.cidade }}</span>
+                  }
+                </span>
+              </div>
+            </div>
+
+            <div class="resultado-card__trocas">
+              @if (item.TemOQuePreciso.length > 0) {
+                <div class="troca-grupo">
+                  <span class="troca-grupo__label troca-grupo__label--tenho">
+                    Ele/ela tem o que você precisa:
+                  </span>
+                  <div class="troca-grupo__codigos">
+                    @for (f of item.TemOQuePreciso; track f.codigo) {
+                      <span class="cod-chip cod-chip--tenho">
+                        {{ f.codigo }}
+                        @if (f.qty > 1) { <em>×{{ f.qty }}</em> }
+                      </span>
+                    }
+                    @if (item.TemOQuePreciso.length === 10) {
+                      <span class="cod-chip cod-chip--mais">+</span>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (item.EuTenhoOQuePrecisa.length > 0) {
+                <div class="troca-grupo">
+                  <span class="troca-grupo__label troca-grupo__label--prec">
+                    Você tem o que ele/ela precisa:
+                  </span>
+                  <div class="troca-grupo__codigos">
+                    @for (f of item.EuTenhoOQuePrecisa; track f.codigo) {
+                      <span class="cod-chip cod-chip--prec">
+                        {{ f.codigo }}
+                        @if (f.qty > 1) { <em>×{{ f.qty }}</em> }
+                      </span>
+                    }
+                    @if (item.EuTenhoOQuePrecisa.length === 10) {
+                      <span class="cod-chip cod-chip--mais">+</span>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (item.TemOQuePreciso.length === 0 && item.EuTenhoOQuePrecisa.length === 0) {
+                <p class="resultado-card__sem-troca">
+                  Troca possível para <strong>{{ buscaUpper() }}</strong>, mas sem outras figurinhas em comum no momento.
+                </p>
+              }
+            </div>
+
+            <div class="resultado-card__contatos">
+              @if (item.whatsappHref) {
+                <a
+                  class="resultado-card__contato resultado-card__contato--whatsapp"
+                  [href]="item.whatsappHref"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp
+                </a>
+              }
+              <a
+                class="resultado-card__contato resultado-card__contato--email"
+                [href]="item.emailHref"
+              >
+                E-mail
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <app-ad-slot slotId="figurinhas-trocar-fim" formato="rectangle" class="trocar__ad" />
+</div>

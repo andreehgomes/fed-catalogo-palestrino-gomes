@@ -25,12 +25,18 @@ export class AdminAfiliadosComponent {
   private storage = inject(Storage);
 
   produtos = toSignal(this.service.getTodos(), { initialValue: [] as ProdutoAfiliado[] });
-  linhas = computed(() => this.produtos() as unknown as Record<string, unknown>[]);
+  linhas = computed(() =>
+    this.produtos().map(p => ({
+      ...p,
+      figurinhas: p.exibirFigurinhas ? 'Sim' : '—',
+    })) as unknown as Record<string, unknown>[],
+  );
   editando = signal<ProdutoAfiliado | null>(null);
 
   readonly colunas: AdminColuna[] = [
     { chave: 'titulo', label: 'Título' },
     { chave: 'preco', label: 'Preço', width: '120px', tipo: 'moeda' },
+    { chave: 'figurinhas', label: 'Figurinhas', width: '110px' },
   ];
   salvando = signal(false);
   uploading = signal(false);
@@ -42,6 +48,7 @@ export class AdminAfiliadosComponent {
   novoPreco = signal(0);
   novoLink = signal('');
   novoDisclosure = signal('Links de afiliado — ao comprar, podemos receber comissão sem custo para você.');
+  novoExibirFigurinhas = signal(false);
 
   iniciarEdicao(p: ProdutoAfiliado | Record<string, unknown>): void {
     const prod = p as ProdutoAfiliado;
@@ -51,6 +58,7 @@ export class AdminAfiliadosComponent {
     this.novoPreco.set(prod.preco);
     this.novoLink.set(prod.linkAfiliado);
     this.novoDisclosure.set(prod.disclosure);
+    this.novoExibirFigurinhas.set(prod.exibirFigurinhas ?? false);
   }
 
   cancelar(): void {
@@ -69,6 +77,7 @@ export class AdminAfiliadosComponent {
         preco: this.novoPreco(),
         linkAfiliado: this.novoLink(),
         disclosure: this.novoDisclosure(),
+        exibirFigurinhas: this.novoExibirFigurinhas(),
       });
       this.editando.set(null);
       this.limpar();
@@ -117,5 +126,6 @@ export class AdminAfiliadosComponent {
     this.novoPreco.set(0);
     this.novoLink.set('');
     this.novoDisclosure.set('Links de afiliado — ao comprar, podemos receber comissão sem custo para você.');
+    this.novoExibirFigurinhas.set(false);
   }
 }

@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { figurinhasAuthGuard } from './core/guards/figurinhas-auth.guard';
 
 export const routes: Routes = [
   {
@@ -35,7 +37,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [() => import('./core/guards/auth.guard').then(m => m.authGuard)],
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
     children: [
@@ -93,6 +95,31 @@ export const routes: Routes = [
       import('./features/classificacao/classificacao.component').then(
         m => m.ClassificacaoComponent,
       ),
+  },
+  {
+    path: 'figurinhas',
+    canActivate: [figurinhasAuthGuard],
+    loadComponent: () =>
+      import('./features/figurinhas/figurinhas-layout/figurinhas-layout.component').then(
+        m => m.FigurinhasLayoutComponent,
+      ),
+    children: [
+      { path: '', redirectTo: 'album', pathMatch: 'full' },
+      {
+        path: 'album',
+        loadComponent: () =>
+          import('./features/figurinhas/figurinhas-album/figurinhas-album.component').then(
+            m => m.FigurinhasAlbumComponent,
+          ),
+      },
+      {
+        path: 'trocar',
+        loadComponent: () =>
+          import('./features/figurinhas/figurinhas-trocar/figurinhas-trocar.component').then(
+            m => m.FigurinhasTrocarComponent,
+          ),
+      },
+    ],
   },
   // Rotas de slug dinâmico — devem vir por último
   {

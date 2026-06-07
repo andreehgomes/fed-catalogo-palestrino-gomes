@@ -1,0 +1,398 @@
+@use '../../../../styles/tokens' as *;
+
+.trocar {
+  &__ad {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: var(--text-h2-size);
+    font-weight: var(--text-h2-weight);
+    text-transform: uppercase;
+    color: var(--color-display-cream);
+    margin: 0 0 0.5rem;
+  }
+
+  &__desc {
+    color: var(--color-text-muted);
+    font-size: var(--text-body-size);
+    margin: 0 0 1.5rem;
+  }
+
+  &__aviso {
+    color: var(--color-text-muted);
+    font-size: var(--text-body-size);
+    padding: 1rem 0;
+  }
+
+  &__erro {
+    background: var(--color-error-container);
+    color: var(--color-error);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: var(--text-caption-size);
+  }
+
+  &__count {
+    color: var(--color-text-muted);
+    font-size: var(--text-body-size);
+    margin: 1.5rem 0 1rem;
+
+    strong { color: var(--color-primary); }
+  }
+
+  &__vazio {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-muted);
+    border: 1px dashed var(--color-outline-variant);
+    border-radius: var(--radius-lg);
+    margin-top: 1.5rem;
+
+    strong { color: var(--color-text-primary); }
+
+    p { margin: 0 0 0.5rem; }
+  }
+
+  &__vazio-dica {
+    font-size: var(--text-caption-size);
+    opacity: 0.7;
+  }
+}
+
+// ─── Tabs de modo ─────────────────────────────────────────────────────────────
+
+.modo-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.modo-tab {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: var(--color-text-muted);
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+
+  &:hover { color: var(--color-text-primary); }
+
+  &--ativo {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
+  }
+}
+
+// ─── Info de parceiros ────────────────────────────────────────────────────────
+
+.parceiros-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface-container);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-outline-variant);
+
+  &__label {
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+  }
+
+  &__qtd {
+    font-weight: 700;
+    color: var(--color-primary);
+    font-size: var(--text-body-size);
+  }
+}
+
+// ─── Barra de busca ───────────────────────────────────────────────────────────
+
+.busca-bar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  &__input-wrap {
+    flex: 1;
+    min-width: 200px;
+    max-width: 320px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface-container);
+    border: 1.5px solid var(--color-outline-variant);
+    border-radius: var(--radius);
+    color: var(--color-text-primary);
+    font-family: var(--font-label);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+
+    &::placeholder {
+      text-transform: none;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--color-text-muted);
+      opacity: 0.6;
+    }
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+
+    &.invalid {
+      border-color: var(--color-error);
+    }
+  }
+
+  &__hint {
+    display: block;
+    font-size: var(--text-caption-size);
+    color: var(--color-error);
+    margin-top: 0.375rem;
+    padding-left: 0.25rem;
+  }
+
+  &__btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary-container);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--color-on-primary-container);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body-size);
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &__limpar {
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius);
+    color: var(--color-text-muted);
+    font-size: var(--text-caption-size);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+
+    &:hover {
+      border-color: var(--color-error);
+      color: var(--color-error);
+    }
+  }
+}
+
+// ─── Filtro de cidade ─────────────────────────────────────────────────────────
+
+.filtro-cidade {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  &__input {
+    padding: 0.5rem 0.875rem;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+    font-size: var(--text-caption-size);
+    width: 220px;
+    transition: border-color 0.15s;
+    outline: none;
+
+    &:focus { border-color: var(--color-primary); }
+
+    &::placeholder { color: var(--color-text-muted); opacity: 0.7; }
+  }
+
+  &__count {
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+  }
+}
+
+// ─── Resultados ───────────────────────────────────────────────────────────────
+
+.resultados {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resultado-card {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--color-outline-variant);
+    flex-shrink: 0;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  &__nome {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: var(--text-body-size);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__email {
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__cidade {
+    color: var(--color-primary);
+    font-style: normal;
+  }
+
+  &__trocas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__sem-troca {
+    font-size: var(--text-caption-size);
+    color: var(--color-text-muted);
+    margin: 0;
+
+    strong { color: var(--color-text-primary); }
+  }
+
+  &__contatos {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  &__contato {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-caption-size);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+
+    &--whatsapp {
+      background: #14532d;
+      border: 1px solid #16a34a;
+      color: #bbf7d0;
+
+      &:hover {
+        background: #166534;
+        border-color: #22c55e;
+      }
+    }
+
+    &--email {
+      background: var(--color-surface-container);
+      border: 1px solid var(--color-outline-variant);
+      color: var(--color-primary);
+
+      &:hover {
+        background: var(--color-surface-container-high);
+        border-color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.troca-grupo {
+  &__label {
+    display: block;
+    font-size: var(--text-caption-size);
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+
+    &--tenho { color: var(--color-primary); }
+    &--prec  { color: #f59e0b; }
+  }
+
+  &__codigos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+}
+
+.cod-chip {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+
+  &--tenho {
+    background: color-mix(in srgb, var(--color-primary-container) 50%, transparent);
+    color: var(--color-on-primary-container);
+    border: 1px solid var(--color-primary);
+  }
+
+  &--prec {
+    background: color-mix(in srgb, #78350f 50%, transparent);
+    color: #fde68a;
+    border: 1px solid #f59e0b;
+  }
+
+  &--mais {
+    background: var(--color-surface-container);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-outline-variant);
+  }
+}
