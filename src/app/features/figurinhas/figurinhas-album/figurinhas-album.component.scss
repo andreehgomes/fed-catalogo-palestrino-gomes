@@ -256,6 +256,51 @@
   }
 }
 
+// ─── Filtro por país ─────────────────────────────────────────────────────────
+
+.album-filtro {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+
+  &__input {
+    flex: 1;
+    max-width: 420px;
+    padding: 0.5rem 0.875rem;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius);
+    color: var(--color-text-primary);
+    font-size: var(--text-body-size);
+    transition: border-color 0.15s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    @media (max-width: 640px) {
+      max-width: none;
+    }
+  }
+
+  &__limpar {
+    padding: 0.5rem 1rem;
+    background: var(--color-surface-container-high, var(--color-surface-container));
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius);
+    color: var(--color-text-muted);
+    font-size: var(--text-caption-size);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+
+    &:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-primary);
+    }
+  }
+}
+
 // ─── Layout ──────────────────────────────────────────────────────────────────
 
 .album-body {
@@ -263,6 +308,11 @@
   grid-template-columns: 160px 1fr;
   gap: 1.5rem;
   align-items: start;
+
+  // Filtro ativo: sem sidebar, conteúdo ocupa a largura toda
+  &--filtrando {
+    grid-template-columns: 1fr;
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -400,6 +450,11 @@
   user-select: none;
   overflow: hidden;
 
+  // Card cresce para acomodar os botões no fluxo (com folga vertical)
+  height: auto;
+  min-height: 76px;
+  padding: 8px 4px;
+
   &__codigo {
     font-family: var(--font-label);
     font-size: 10px;
@@ -416,14 +471,19 @@
     line-height: 1;
   }
 
-  // Botões +/− aparecem no hover
+  // Botões +/− no fluxo do card, com respiro acima do código/quantidade.
+  // No desktop ficam invisíveis até o hover (mas o espaço já é reservado,
+  // então nada "pula"); no touch ficam sempre visíveis.
   &__controles {
     display: flex;
     gap: 2px;
     opacity: 0;
     transition: opacity 0.15s;
-    position: absolute;
-    bottom: 4px;
+    margin-top: 10px;
+
+    @media (hover: none), (pointer: coarse) {
+      opacity: 1;
+    }
   }
 
   &:hover &__controles,
@@ -480,6 +540,8 @@
   &--mini {
     width: 20px;
     height: 20px;
+    min-height: 0;
+    padding: 0;
     pointer-events: none;
     .fig-card__controles { display: none; }
   }

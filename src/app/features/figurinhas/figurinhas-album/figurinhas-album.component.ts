@@ -7,7 +7,7 @@ import { FigurinhasService } from '../services/figurinhas.service';
 import { AdSlotComponent } from '../../../shared/components/ad-slot/ad-slot.component';
 import { FigurinhasAfiliadosComponent } from '../figurinhas-afiliados/figurinhas-afiliados.component';
 import { GRUPOS_FIGURINHAS, TOTAL_FIGURINHAS } from '../data/figurinhas.data';
-import { GrupoFigurinhas } from '../models/figurinha.model';
+import { GrupoFigurinhas, TimeFigurinhas } from '../models/figurinha.model';
 import { EMPTY, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take } from 'rxjs/operators';
 
@@ -40,6 +40,37 @@ export class FigurinhasAlbumComponent {
   grupoAtivoData = computed<GrupoFigurinhas>(
     () => this.grupos.find(g => g.grupo === this.grupoAtivo())!,
   );
+
+  // Filtro por código/nome do país (ex: "BRA" ou "Brasil")
+  filtroPais = signal('');
+
+  private timesFiltrados = computed<TimeFigurinhas[] | null>(() => {
+    const f = this.filtroPais().trim().toUpperCase();
+    if (!f) return null;
+    return this.grupos.flatMap(g =>
+      g.times.filter(
+        t => t.sigla.startsWith(f) || t.pais.toUpperCase().includes(f),
+      ),
+    );
+  });
+
+  filtrando = computed(() => this.timesFiltrados() !== null);
+
+  // Times exibidos na área de conteúdo: resultado do filtro ou o grupo ativo
+  timesExibidos = computed<TimeFigurinhas[]>(
+    () => this.timesFiltrados() ?? this.grupoAtivoData().times,
+  );
+
+  tituloConteudo = computed(() => {
+    const filtrados = this.timesFiltrados();
+    if (filtrados === null) return this.grupoAtivoData().nome;
+    if (!filtrados.length) return 'Nenhum país encontrado';
+    return `${filtrados.length} seleç${filtrados.length > 1 ? 'ões' : 'ão'} encontrada${filtrados.length > 1 ? 's' : ''}`;
+  });
+
+  limparFiltro(): void {
+    this.filtroPais.set('');
+  }
 
   totalTenho = computed(() =>
     Object.values(this.quantidade()).filter(q => q >= 1).length,

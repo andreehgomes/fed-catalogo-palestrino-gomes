@@ -99,29 +99,47 @@
       </div>
     </div>
 
-    <div class="album-body">
-      <!-- Sidebar de grupos -->
-      <aside class="album-sidebar">
-        @for (grupo of grupos; track grupo.grupo) {
-          <button
-            class="grupo-btn"
-            [class.active]="grupoAtivo() === grupo.grupo"
-            (click)="selecionarGrupo(grupo.grupo)"
-          >
-            <div class="grupo-btn__top">
-              <span class="grupo-btn__label">{{ grupo.grupo }}</span>
-              <span class="grupo-btn__prog">{{ progressoGrupo(grupo) }}%</span>
-            </div>
-            <span class="grupo-btn__siglas">{{ siglasGrupo(grupo) }}</span>
-          </button>
-        }
-      </aside>
+    <!-- Filtro por país -->
+    <div class="album-filtro">
+      <input
+        class="album-filtro__input"
+        type="text"
+        placeholder="Filtrar por país ou código (ex: BRA, Brasil...)"
+        [ngModel]="filtroPais()"
+        (ngModelChange)="filtroPais.set($event)"
+      />
+      @if (filtrando()) {
+        <button class="album-filtro__limpar" type="button" (click)="limparFiltro()">
+          Limpar
+        </button>
+      }
+    </div>
 
-      <!-- Área do grupo ativo -->
+    <div class="album-body" [class.album-body--filtrando]="filtrando()">
+      <!-- Sidebar de grupos (oculta durante o filtro) -->
+      @if (!filtrando()) {
+        <aside class="album-sidebar">
+          @for (grupo of grupos; track grupo.grupo) {
+            <button
+              class="grupo-btn"
+              [class.active]="grupoAtivo() === grupo.grupo"
+              (click)="selecionarGrupo(grupo.grupo)"
+            >
+              <div class="grupo-btn__top">
+                <span class="grupo-btn__label">{{ grupo.grupo }}</span>
+                <span class="grupo-btn__prog">{{ progressoGrupo(grupo) }}%</span>
+              </div>
+              <span class="grupo-btn__siglas">{{ siglasGrupo(grupo) }}</span>
+            </button>
+          }
+        </aside>
+      }
+
+      <!-- Área do grupo ativo ou do resultado do filtro -->
       <section class="album-content">
-        <h2 class="album-content__title">{{ grupoAtivoData().nome }}</h2>
+        <h2 class="album-content__title">{{ tituloConteudo() }}</h2>
 
-        @for (time of grupoAtivoData().times; track time.sigla) {
+        @for (time of timesExibidos(); track time.sigla) {
           <div class="time-section">
             <h3 class="time-section__nome">
               {{ time.pais }}
