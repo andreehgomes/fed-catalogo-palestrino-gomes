@@ -7,6 +7,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { mensagemErroLoginGoogle } from '../../../core/services/auth-error.util';
 
 @Component({
   selector: 'app-admin-login',
@@ -35,8 +36,8 @@ export class AdminLoginComponent {
       await this.auth.loginComGoogle();
       const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/';
       this.router.navigateByUrl(returnUrl);
-    } catch {
-      this.erroGoogle.set('Não foi possível entrar. Tente novamente.');
+    } catch (e: unknown) {
+      this.erroGoogle.set(mensagemErroLoginGoogle(e));
     } finally {
       this.carregandoGoogle.set(false);
     }
