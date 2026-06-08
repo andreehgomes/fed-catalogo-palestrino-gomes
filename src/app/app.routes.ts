@@ -97,6 +97,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'copa-2026',
+    loadComponent: () =>
+      import('./features/copa/copa.component').then(m => m.CopaComponent),
+  },
+  {
     path: 'figurinhas',
     canActivate: [figurinhasAuthGuard],
     loadComponent: () =>

@@ -10,6 +10,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'aviso-ia', renderMode: RenderMode.Server },
   { path: 'busca', renderMode: RenderMode.Server },
   { path: 'classificacao', renderMode: RenderMode.Server },
+  { path: 'copa-2026', renderMode: RenderMode.Server },
   { path: 'admin/login', renderMode: RenderMode.Client },
   { path: 'admin/**', renderMode: RenderMode.Client },
   { path: 'figurinhas/**', renderMode: RenderMode.Client },

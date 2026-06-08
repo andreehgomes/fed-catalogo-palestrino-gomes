@@ -4,7 +4,15 @@ import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 const BASE_URL = 'https://palestrinogomes.com.br';
 
 /** Páginas estáticas do site (sem lastmod). */
-const STATIC_PATHS = ['', '/sobre', '/contato', '/privacidade', '/aviso-ia', '/classificacao'];
+const STATIC_PATHS = [
+  '',
+  '/sobre',
+  '/contato',
+  '/privacidade',
+  '/aviso-ia',
+  '/classificacao',
+  '/copa-2026',
+];
 
 /** TTL do cache em memória do sitemap (1 hora). */
 const SITEMAP_CACHE_TTL_MS = 60 * 60 * 1000;

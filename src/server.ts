@@ -9,6 +9,7 @@ import express from 'express';
 import { join } from 'node:path';
 import { readClassificacaoCache, saveClassificacaoCache } from './firebase-cache.server';
 import { getSitemapXml } from './sitemap.server';
+import { montarCopaPayload, type CopaPayload } from './copa.server';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -64,6 +65,34 @@ app.get('/api/classificacao', async (_req, res) => {
     if (cache) {
       res.setHeader('Cache-Control', 'no-cache');
       res.json(cache.payload);
+      return;
+    }
+    res.status(503).json({ error: 'Serviço indisponível' });
+  }
+});
+
+// Cache em memória da Copa 2026. Sem placar ao vivo na chave gratuita, um TTL
+// curto é suficiente; durante os jogos o TheSportsDB atualiza com algum atraso.
+const COPA_CACHE_TTL_MS = 120_000;
+let copaCache: { payload: CopaPayload; savedAt: number } | null = null;
+
+app.get('/api/copa', async (_req, res) => {
+  const idade = copaCache ? Date.now() - copaCache.savedAt : Infinity;
+  if (copaCache && idade < COPA_CACHE_TTL_MS) {
+    res.setHeader('Cache-Control', 'public, max-age=120');
+    res.json(copaCache.payload);
+    return;
+  }
+
+  try {
+    const payload = await montarCopaPayload();
+    copaCache = { payload, savedAt: Date.now() };
+    res.setHeader('Cache-Control', 'public, max-age=120');
+    res.json(payload);
+  } catch {
+    if (copaCache) {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json(copaCache.payload);
       return;
     }
     res.status(503).json({ error: 'Serviço indisponível' });

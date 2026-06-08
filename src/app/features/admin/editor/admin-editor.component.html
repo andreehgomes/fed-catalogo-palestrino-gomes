@@ -140,8 +140,15 @@
 
       <div class="editor__painel">
         <h3 class="editor__painel-titulo">Tags</h3>
+        <input
+          type="text"
+          class="editor__input"
+          [ngModel]="filtroBuscaTag()"
+          (ngModelChange)="filtroBuscaTag.set($event)"
+          placeholder="Filtrar tags..."
+        />
         <div class="editor__tags">
-          @for (tag of tags(); track tag.id) {
+          @for (tag of tagsFiltradas(); track tag.id) {
             <label class="editor__tag-label">
               <input
                 type="checkbox"

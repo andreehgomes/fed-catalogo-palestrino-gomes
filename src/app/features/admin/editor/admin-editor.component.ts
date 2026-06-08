@@ -66,6 +66,7 @@ export class AdminEditorComponent implements OnInit {
   adicionandoTag = signal(false);
   novaTagNome = signal('');
   salvandoTag = signal(false);
+  filtroBuscaTag = signal('');
 
   adicionandoCategoria = signal(false);
   novaCatNome = signal('');
@@ -92,6 +93,11 @@ export class AdminEditorComponent implements OnInit {
   produtosSelecionados = computed(() =>
     this.produtos().filter(p => this.afiliadosIds().includes(p.id)),
   );
+
+  tagsFiltradas = computed(() => {
+    const filtro = this.filtroBuscaTag().toLowerCase().trim();
+    return filtro ? this.tags().filter(t => t.nome.toLowerCase().includes(filtro)) : this.tags();
+  });
 
   produtosFiltrados = computed(() => {
     const busca = this.buscaAfiliado().toLowerCase().trim();

@@ -30,6 +30,14 @@ export class SeoService {
     );
   }
 
+  setCopa(): void {
+    this.setBasic(
+      `Copa do Mundo 2026 — Tabela, Grupos e Resultados | ${SITE_NAME}`,
+      'Acompanhe a Copa do Mundo de 2026: classificação dos grupos, resultados de todos os jogos e o mata-mata. Dados atualizados.',
+      `${BASE_URL}/copa-2026`,
+    );
+  }
+
   setCategoria(cat: Categoria): void {
     const url = `${BASE_URL}/${cat.slug}`;
     this.setBasic(`${cat.nome} | ${SITE_NAME}`, cat.descricao, url);
