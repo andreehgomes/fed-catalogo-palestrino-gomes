@@ -68,6 +68,7 @@
           @for (grupo of gruposFiltrados(); track grupo.letra) {
             <div class="grupo">
               <h2 class="grupo__titulo">{{ grupo.nome }}</h2>
+              <div class="grupo__scroll">
               <table class="grupo__tabela" [attr.aria-label]="'Classificação do ' + grupo.nome">
                 <thead>
                   <tr>
@@ -108,6 +109,7 @@
                   }
                 </tbody>
               </table>
+              </div>
             </div>
           }
         </div>

@@ -188,6 +188,13 @@
   overflow: hidden;
   background: var(--color-surface-card);
 
+  // Rolagem horizontal quando os nomes longos não cabem (sobretudo no mobile),
+  // garantindo que as colunas P/J/SG fiquem sempre acessíveis.
+  &__scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   &__titulo {
     font-family: var(--font-label);
     font-size: var(--text-label-size);
@@ -211,6 +218,10 @@
       padding: 0.5rem 0.6rem;
       text-align: center;
       white-space: nowrap;
+
+      @media (max-width: 420px) {
+        padding: 0.4rem 0.45rem;
+      }
     }
 
     th {
@@ -271,11 +282,8 @@
   font-weight: 600;
 }
 
-@media (max-width: 520px) {
-  .col-ocultar-mobile {
-    display: none;
-  }
-}
+// No mobile, todas as colunas (V, E, D) continuam visíveis — a rolagem
+// horizontal de .grupo__scroll garante o acesso quando não couberem.
 
 // ----- Fases (jogos / mata-mata / eliminatórias) -----
 .fase {
