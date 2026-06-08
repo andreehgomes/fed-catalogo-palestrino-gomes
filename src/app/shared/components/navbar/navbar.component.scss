@@ -133,12 +133,24 @@
 }
 
 @media (max-width: 768px) {
-  .navbar__hamburger { display: flex; }
+  .navbar__hamburger { display: flex; flex-shrink: 0; }
+
+  // Compacta o header no mobile para evitar overflow horizontal (que "comia"
+  // o padding direito e colava o hambúrguer na borda da tela).
+  .navbar__inner {
+    gap: 0.75rem;
+    min-height: 64px;
+    padding-block: 0.4rem;
+  }
+
+  .navbar__logo-img { height: 48px; }
+
+  .navbar__acoes { gap: 0.5rem; }
 
   .navbar__nav {
     display: none;
     position: absolute;
-    top: 88px;
+    top: 100%;
     left: 0;
     right: 0;
     background: var(--color-fundo);
@@ -149,4 +161,15 @@
 
     &--aberto { display: flex; }
   }
+}
+
+@media (max-width: 480px) {
+  .navbar__busca { display: none; }
+
+  .navbar__admin-link {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  .navbar__sair { font-size: 0.72rem; }
 }
