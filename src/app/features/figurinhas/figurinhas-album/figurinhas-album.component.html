@@ -24,6 +24,11 @@
         <span class="stat__valor">{{ totalFigurinhas }}</span>
         <span class="stat__label">Total</span>
       </div>
+      @if (totalRepetidas() > 0) {
+        <button class="album-compartilhar-btn" type="button" (click)="abrirModalCompartilhar()">
+          Compartilhar repetidas ({{ totalRepetidas() }})
+        </button>
+      }
       @if (salvando()) {
         <span class="album-saving">Salvando...</span>
       }
@@ -184,4 +189,37 @@
 
     <app-ad-slot slotId="figurinhas-album-fim" formato="rectangle" class="album-ad" />
   </div>
+
+  @if (modalCompartilharAberto()) {
+    <div class="compartilhar-overlay" (click)="fecharModalCompartilhar()">
+      <div class="compartilhar-modal" (click)="$event.stopPropagation()">
+        <div class="compartilhar-modal__header">
+          <h3 class="compartilhar-modal__title">Figurinhas repetidas</h3>
+          <button
+            class="compartilhar-modal__fechar"
+            type="button"
+            (click)="fecharModalCompartilhar()"
+            aria-label="Fechar"
+          >✕</button>
+        </div>
+        <div class="compartilhar-modal__body">
+          <textarea
+            class="compartilhar-modal__texto"
+            readonly
+            [value]="textoRepetidas()"
+          ></textarea>
+        </div>
+        <div class="compartilhar-modal__footer">
+          <button
+            class="compartilhar-modal__copiar"
+            [class.compartilhar-modal__copiar--copiado]="textoCopiado()"
+            type="button"
+            (click)="copiarTexto()"
+          >
+            {{ textoCopiado() ? '✓ Copiado!' : 'Copiar texto' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 }

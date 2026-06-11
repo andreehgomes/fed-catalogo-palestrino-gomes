@@ -38,6 +38,14 @@ export class SeoService {
     );
   }
 
+  setFigurinhas(): void {
+    this.setBasic(
+      `Álbum de Figurinhas da Copa 2026 — Grátis e Online | ${SITE_NAME}`,
+      'Monte seu álbum da Copa 2026 online: marque as figurinhas que você tem, controle as repetidas e encontre trocas. Grátis e salvo na nuvem.',
+      `${BASE_URL}/figurinhas`,
+    );
+  }
+
   setCategoria(cat: Categoria): void {
     const url = `${BASE_URL}/${cat.slug}`;
     this.setBasic(`${cat.nome} | ${SITE_NAME}`, cat.descricao, url);

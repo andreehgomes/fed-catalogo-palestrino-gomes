@@ -13,6 +13,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'copa-2026', renderMode: RenderMode.Server },
   { path: 'admin/login', renderMode: RenderMode.Client },
   { path: 'admin/**', renderMode: RenderMode.Client },
+  // Landing pública renderizada no servidor (SEO); área logada permanece Client
+  { path: 'figurinhas', renderMode: RenderMode.Server },
   { path: 'figurinhas/**', renderMode: RenderMode.Client },
   { path: ':categoria', renderMode: RenderMode.Server },
   { path: ':categoria/:slug', renderMode: RenderMode.Server },

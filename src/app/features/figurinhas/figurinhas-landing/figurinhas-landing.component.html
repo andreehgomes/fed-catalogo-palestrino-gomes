@@ -1,0 +1,135 @@
+<div class="fig-landing">
+  <!-- ───────────────────────── HERO ───────────────────────── -->
+  <section class="hero">
+    @if (imgOk()) {
+      <img
+        class="hero__bg"
+        src="/assets/imagens/figurinhas-hero.png"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        (error)="onImgError()"
+      />
+    }
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <span class="hero__badge">Novidade · Grátis</span>
+      <h1 class="hero__title">Álbum de Figurinhas da Copa 2026</h1>
+      <p class="hero__subtitle">
+        Monte seu álbum online, marque o que você já tem e as repetidas, e descubra
+        com quem trocar para completar a coleção — tudo direto do navegador.
+      </p>
+
+      <div class="hero__cta">
+        <a routerLink="/figurinhas/album" class="btn btn--primary">
+          Montar meu álbum grátis →
+        </a>
+        <span class="hero__cta-note">Entre com o Google · leva menos de 1 minuto</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── STATS ───────────────────────── -->
+  <section class="stats" aria-label="Números do álbum">
+    <div class="stats__item">
+      <span class="stats__num">{{ totalFigurinhas }}</span>
+      <span class="stats__label">Figurinhas no álbum</span>
+    </div>
+    <div class="stats__item">
+      <span class="stats__num">{{ totalSelecoes }}</span>
+      <span class="stats__label">Seleções e coleções</span>
+    </div>
+    <div class="stats__item">
+      <span class="stats__num">100%</span>
+      <span class="stats__label">Gratuito e online</span>
+    </div>
+  </section>
+
+  <!-- ───────────────────── COMO FUNCIONA ───────────────────── -->
+  <section class="passos">
+    <h2 class="secao__titulo">Como funciona</h2>
+    <p class="secao__intro">Em três passos você nunca mais perde o controle das suas figurinhas.</p>
+
+    <ol class="passos__lista">
+      <li class="passo">
+        <span class="passo__num">1</span>
+        <h3 class="passo__titulo">Entre com o Google</h3>
+        <p class="passo__texto">
+          Login rápido e seguro. Seus dados ficam salvos na nuvem e sincronizados
+          em qualquer celular ou computador.
+        </p>
+      </li>
+      <li class="passo">
+        <span class="passo__num">2</span>
+        <h3 class="passo__titulo">Marque o que você tem</h3>
+        <p class="passo__texto">
+          Toque nas figurinhas que já colou e indique as repetidas. O álbum mostra
+          sozinho quanto falta para você completar.
+        </p>
+      </li>
+      <li class="passo">
+        <span class="passo__num">3</span>
+        <h3 class="passo__titulo">Encontre trocas</h3>
+        <p class="passo__texto">
+          Veja quem tem as figurinhas que faltam para você e ofereça as suas
+          repetidas. Trocar nunca foi tão fácil.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ───────────────────── DIFERENCIAIS ───────────────────── -->
+  <section class="recursos">
+    <h2 class="secao__titulo">Por que usar</h2>
+
+    <div class="recursos__grid">
+      <article class="recurso">
+        <span class="recurso__icone">📲</span>
+        <h3 class="recurso__titulo">Sempre com você</h3>
+        <p class="recurso__texto">
+          Acesse do celular na hora de comprar pacotinhos e saiba na hora se a
+          figurinha é nova ou repetida.
+        </p>
+      </article>
+
+      <article class="recurso">
+        <span class="recurso__icone">📊</span>
+        <h3 class="recurso__titulo">Progresso em tempo real</h3>
+        <p class="recurso__texto">
+          Acompanhe a porcentagem do álbum, figurinhas que faltam e suas repetidas
+          organizadas por seleção.
+        </p>
+      </article>
+
+      <article class="recurso">
+        <span class="recurso__icone">🤝</span>
+        <h3 class="recurso__titulo">Comunidade de trocas</h3>
+        <p class="recurso__texto">
+          Conecte-se com outros colecionadores do Palestrino Gomes e feche trocas
+          para completar a Copa 2026.
+        </p>
+      </article>
+
+      <article class="recurso">
+        <span class="recurso__icone">☁️</span>
+        <h3 class="recurso__titulo">Salvo na nuvem</h3>
+        <p class="recurso__texto">
+          Nunca perca seu progresso. Tudo é sincronizado automaticamente entre
+          todos os seus dispositivos.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ───────────────────── CTA FINAL ───────────────────── -->
+  <section class="cta-final">
+    <h2 class="cta-final__titulo">Pronto para completar a Copa 2026?</h2>
+    <p class="cta-final__texto">
+      Comece agora — é grátis e seu álbum fica salvo para sempre.
+    </p>
+    <a routerLink="/figurinhas/album" class="btn btn--primary">
+      Montar meu álbum grátis →
+    </a>
+  </section>
+</div>

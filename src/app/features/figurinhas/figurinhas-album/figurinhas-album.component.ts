@@ -80,6 +80,42 @@ export class FigurinhasAlbumComponent {
   );
   totalFaltando = computed(() => this.totalFigurinhas - this.totalTenho());
 
+  modalCompartilharAberto = signal(false);
+  textoCopiado = signal(false);
+
+  textoRepetidas = computed(() => {
+    const qtd = this.quantidade();
+    const codigosRepetidos = new Set(Object.keys(qtd).filter(c => qtd[c] >= 2));
+    if (!codigosRepetidos.size) return '';
+
+    const linhas = ['Minhas figurinhas repetidas para troca:', ''];
+    let total = 0;
+
+    for (const grupo of this.grupos) {
+      for (const time of grupo.times) {
+        const repetidas = time.codigos.filter(c => codigosRepetidos.has(c));
+        if (!repetidas.length) continue;
+        const partes = repetidas.map(c => {
+          const extras = qtd[c] - 1;
+          return extras > 1 ? `${c} (×${extras})` : c;
+        });
+        linhas.push(`${time.pais} (${time.sigla})`);
+        linhas.push(`   ${partes.join(', ')}`);
+        total += repetidas.length;
+      }
+    }
+
+    linhas.push('');
+    linhas.push(`Total: ${total} figurinha${total > 1 ? 's' : ''}`);
+    const cidade = this.cidadeInput().trim();
+    const whatsapp = this.whatsappInput().trim();
+    if (cidade) linhas.push(`Cidade: ${cidade}`);
+    if (whatsapp) linhas.push(`WhatsApp: ${whatsapp}`);
+    linhas.push('');
+    linhas.push('Gerencie suas figurinhas em: palestrinogomes.com.br/figurinhas');
+    return linhas.join('\n');
+  });
+
   constructor() {
     // Espera o Firebase Auth resolver (undefined = ainda carregando, null = não logado, User = logado)
     toObservable(this.authService.usuario)
@@ -184,6 +220,21 @@ export class FigurinhasAlbumComponent {
 
   togglePopover(): void {
     this.popoverAberto.set(!this.popoverAberto());
+  }
+
+  abrirModalCompartilhar(): void {
+    this.modalCompartilharAberto.set(true);
+    this.textoCopiado.set(false);
+  }
+
+  fecharModalCompartilhar(): void {
+    this.modalCompartilharAberto.set(false);
+  }
+
+  async copiarTexto(): Promise<void> {
+    await navigator.clipboard.writeText(this.textoRepetidas());
+    this.textoCopiado.set(true);
+    setTimeout(() => this.textoCopiado.set(false), 2000);
   }
 
   mascaraCelular(event: Event): void {

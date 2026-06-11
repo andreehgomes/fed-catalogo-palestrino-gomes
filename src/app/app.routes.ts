@@ -102,6 +102,15 @@ export const routes: Routes = [
       import('./features/copa/copa.component').then(m => m.CopaComponent),
   },
   {
+    // Landing pública — apresenta o recurso e leva ao login/álbum (SSR para SEO)
+    path: 'figurinhas',
+    loadComponent: () =>
+      import('./features/figurinhas/figurinhas-landing/figurinhas-landing.component').then(
+        m => m.FigurinhasLandingComponent,
+      ),
+  },
+  {
+    // Área logada do álbum (álbum + trocas), protegida por login Google
     path: 'figurinhas',
     canActivate: [figurinhasAuthGuard],
     loadComponent: () =>
@@ -109,7 +118,6 @@ export const routes: Routes = [
         m => m.FigurinhasLayoutComponent,
       ),
     children: [
-      { path: '', redirectTo: 'album', pathMatch: 'full' },
       {
         path: 'album',
         loadComponent: () =>
