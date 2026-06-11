@@ -63,7 +63,54 @@
 
   &__item {
     display: block;
-    flex: 0 0 400px;
-    max-width: 88vw; // no mobile, mostra um card e a "espiada" do próximo
+    flex: 0 0 220px;
+    max-width: 72vw; // no mobile, mostra um card e a "espiada" do próximo
+  }
+
+  // Versão compacta e vertical do affiliate-card apenas dentro do carrossel de
+  // figurinhas: imagem em cima, descrição/preço/botão embaixo.
+  // Não afeta os cards usados no restante do site (home/artigos).
+  &__item ::ng-deep .affiliate-card {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  &__item ::ng-deep .affiliate-card__img {
+    width: 100%;
+    height: 140px;
+  }
+
+  &__item ::ng-deep .affiliate-card__body {
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  &__item ::ng-deep .affiliate-card__titulo {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+
+  &__item ::ng-deep .affiliate-card__preco {
+    font-size: 1.0625rem;
+  }
+
+  &__item ::ng-deep .affiliate-card__cta {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  &__item ::ng-deep .affiliate-card__disclosure {
+    font-size: 0.625rem;
+  }
+
+  // No mobile, esconde o texto auxiliar (código/link) abaixo do botão
+  // para deixar o card mais limpo. O link do botão continua funcionando.
+  @media (max-width: 768px) {
+    &__item ::ng-deep .affiliate-card__disclosure {
+      display: none;
+    }
   }
 }
