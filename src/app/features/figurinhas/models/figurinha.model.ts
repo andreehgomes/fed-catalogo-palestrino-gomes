@@ -7,6 +7,7 @@ export interface GrupoFigurinhas {
 export interface TimeFigurinhas {
   sigla: string;
   pais: string;
+  bandeira: string;
   codigos: string[];
 }
 

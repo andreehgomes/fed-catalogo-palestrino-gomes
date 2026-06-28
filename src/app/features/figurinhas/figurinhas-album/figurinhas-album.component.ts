@@ -96,11 +96,11 @@ export class FigurinhasAlbumComponent {
         const repetidas = time.codigos.filter(c => codigosRepetidos.has(c));
         if (!repetidas.length) continue;
         const partes = repetidas.map(c => {
+          const numero = c.slice(time.sigla.length);
           const extras = qtd[c] - 1;
-          return extras > 1 ? `${c} (×${extras})` : c;
+          return extras > 1 ? `${numero}(x${extras})` : numero;
         });
-        linhas.push(`${time.pais} (${time.sigla})`);
-        linhas.push(`   ${partes.join(', ')}`);
+        linhas.push(`${time.bandeira} ${time.sigla}: ${partes.join(', ')}`);
         total += repetidas.length;
       }
     }
