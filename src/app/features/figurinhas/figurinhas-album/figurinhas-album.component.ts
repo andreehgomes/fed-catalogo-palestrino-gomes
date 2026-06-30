@@ -83,6 +83,37 @@ export class FigurinhasAlbumComponent {
   modalCompartilharAberto = signal(false);
   textoCopiado = signal(false);
 
+  modalFaltandoAberto = signal(false);
+  textoFaltandoCopiado = signal(false);
+
+  textoFaltando = computed(() => {
+    const qtd = this.quantidade();
+    const linhas = ['Figurinhas que ainda preciso:', ''];
+    let total = 0;
+
+    for (const grupo of this.grupos) {
+      for (const time of grupo.times) {
+        const faltando = time.codigos.filter(c => (qtd[c] ?? 0) < 1);
+        if (!faltando.length) continue;
+        const partes = faltando.map(c => c.slice(time.sigla.length));
+        linhas.push(`${time.bandeira} ${time.sigla}: ${partes.join(', ')}`);
+        total += faltando.length;
+      }
+    }
+
+    if (!total) return '';
+
+    linhas.push('');
+    linhas.push(`Total: ${total} figurinha${total > 1 ? 's' : ''}`);
+    const cidade = this.cidadeInput().trim();
+    const whatsapp = this.whatsappInput().trim();
+    if (cidade) linhas.push(`Cidade: ${cidade}`);
+    if (whatsapp) linhas.push(`WhatsApp: ${whatsapp}`);
+    linhas.push('');
+    linhas.push('Gerencie suas figurinhas em: palestrinogomes.com.br/figurinhas');
+    return linhas.join('\n');
+  });
+
   textoRepetidas = computed(() => {
     const qtd = this.quantidade();
     const codigosRepetidos = new Set(Object.keys(qtd).filter(c => qtd[c] >= 2));
@@ -235,6 +266,21 @@ export class FigurinhasAlbumComponent {
     await navigator.clipboard.writeText(this.textoRepetidas());
     this.textoCopiado.set(true);
     setTimeout(() => this.textoCopiado.set(false), 2000);
+  }
+
+  abrirModalFaltando(): void {
+    this.modalFaltandoAberto.set(true);
+    this.textoFaltandoCopiado.set(false);
+  }
+
+  fecharModalFaltando(): void {
+    this.modalFaltandoAberto.set(false);
+  }
+
+  async copiarTextoFaltando(): Promise<void> {
+    await navigator.clipboard.writeText(this.textoFaltando());
+    this.textoFaltandoCopiado.set(true);
+    setTimeout(() => this.textoFaltandoCopiado.set(false), 2000);
   }
 
   mascaraCelular(event: Event): void {

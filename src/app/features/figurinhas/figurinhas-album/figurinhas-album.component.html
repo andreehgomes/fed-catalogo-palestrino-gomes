@@ -29,6 +29,11 @@
           Compartilhar repetidas ({{ totalRepetidas() }})
         </button>
       }
+      @if (totalFaltando() > 0) {
+        <button class="album-compartilhar-btn" type="button" (click)="abrirModalFaltando()">
+          Compartilhar faltando ({{ totalFaltando() }})
+        </button>
+      }
       @if (salvando()) {
         <span class="album-saving">Salvando...</span>
       }
@@ -217,6 +222,39 @@
             (click)="copiarTexto()"
           >
             {{ textoCopiado() ? '✓ Copiado!' : 'Copiar texto' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (modalFaltandoAberto()) {
+    <div class="compartilhar-overlay" (click)="fecharModalFaltando()">
+      <div class="compartilhar-modal" (click)="$event.stopPropagation()">
+        <div class="compartilhar-modal__header">
+          <h3 class="compartilhar-modal__title">Figurinhas faltando</h3>
+          <button
+            class="compartilhar-modal__fechar"
+            type="button"
+            (click)="fecharModalFaltando()"
+            aria-label="Fechar"
+          >✕</button>
+        </div>
+        <div class="compartilhar-modal__body">
+          <textarea
+            class="compartilhar-modal__texto"
+            readonly
+            [value]="textoFaltando()"
+          ></textarea>
+        </div>
+        <div class="compartilhar-modal__footer">
+          <button
+            class="compartilhar-modal__copiar"
+            [class.compartilhar-modal__copiar--copiado]="textoFaltandoCopiado()"
+            type="button"
+            (click)="copiarTextoFaltando()"
+          >
+            {{ textoFaltandoCopiado() ? '✓ Copiado!' : 'Copiar texto' }}
           </button>
         </div>
       </div>
