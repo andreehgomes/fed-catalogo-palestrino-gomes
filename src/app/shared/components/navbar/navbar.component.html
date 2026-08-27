@@ -8,12 +8,6 @@
       <a routerLink="/classificacao" routerLinkActive="navbar__link--ativo" class="navbar__link" (click)="menuAberto.set(false)">
         Classificação
       </a>
-      <a routerLink="/copa-2026" routerLinkActive="navbar__link--ativo" class="navbar__link" (click)="menuAberto.set(false)">
-        Copa 2026
-      </a>
-      <a routerLink="/figurinhas" routerLinkActive="navbar__link--ativo" class="navbar__link navbar__link--figurinhas" (click)="menuAberto.set(false)">
-        🏆 Figurinhas
-      </a>
       @for (cat of categorias(); track cat.id) {
         <a [routerLink]="['/', cat.slug]" routerLinkActive="navbar__link--ativo" class="navbar__link" (click)="menuAberto.set(false)">
           {{ cat.nome }}

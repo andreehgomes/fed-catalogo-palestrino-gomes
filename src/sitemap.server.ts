@@ -11,7 +11,6 @@ const STATIC_PATHS = [
   '/privacidade',
   '/aviso-ia',
   '/classificacao',
-  '/copa-2026',
 ];
 
 /** TTL do cache em memória do sitemap (1 hora). */
